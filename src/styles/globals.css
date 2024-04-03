@@ -2,3 +2,23 @@
 @tailwind components;
 @tailwind utilities;
 
+@keyframes rotate-full {
+    0% {
+        transform: scale(1) rotate(0deg);
+    }
+    100% {
+        transform: scale(1.8) rotate(395deg);
+    }
+}
+
+@keyframes rotate-additional {
+    0% { transform: scale(1); }
+    100% { transform: scale(1.4); }
+}
+
+.box {
+    animation: rotate-full 3s linear forwards  ;
+}
+.animateOnce {
+    animation: rotate-additional 3s linear forwards  ;
+}
