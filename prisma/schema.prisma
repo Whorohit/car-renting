@@ -74,26 +74,32 @@ model User {
 }
 
 model Rent {
-  id            String   @id @default(auto()) @map("_id") @db.ObjectId
-  
-  startdatetime DateTime
-  enddatetime   DateTime
-  paymentmode   String
-  userId        String   @db.ObjectId
+  id String @id @default(auto()) @map("_id") @db.ObjectId
 
-  User User @relation(fields: [userId], references: [id])
+  startdatetime       DateTime
+  enddatetime         DateTime
+  paymentmode         String
+  userId              String   @db.ObjectId
+  razorpay_order_id   String
+  razorpay_payment_id String
+  razorpay_signature  String
+  price               BigInt
+  createdAt           DateTime @default(now())
+  User                User     @relation(fields: [userId], references: [id])
 
   CarModal   CarModal? @relation(fields: [carModalId], references: [id])
   carModalId String?   @db.ObjectId
 }
 
 model Purchase {
-  id       String   @id @default(auto()) @map("_id") @db.ObjectId
-  price    BigInt
-  
-  createAt DateTime @default(now())
-  mode     String
-  userId   String   @db.ObjectId
+  id        String   @id @default(auto()) @map("_id") @db.ObjectId
+  price     BigInt
+  createdAt DateTime @default(now())
+
+  userId              String @db.ObjectId
+  razorpay_order_id   String
+  razorpay_payment_id String
+  razorpay_signature  String
 
   User User? @relation(fields: [userId], references: [id])
 

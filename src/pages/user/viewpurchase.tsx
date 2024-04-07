@@ -1,4 +1,4 @@
-import Carcard from '@/components/Carcard'
+import Carcard from '@/components/Carcard/Carcard'
 import Similarproduct from '@/components/Similarprduct'
 import React from 'react'
 import { brandname } from '../../../hooks/brandname'
@@ -6,13 +6,12 @@ import data from '../../../public/category.json'
 import { usegetuserpurcahseorrent } from '../../../hooks/usegetuserpurchaseorrent'
 import nocar from '../../data/nocar.json'
 import Lottie from "lottie-react";
+import RentorPurchaseCard from '@/components/Carcard/RentorPurchaseCard'
 interface Props { }
 
 const Viewpurchases = (props: Props) => {
   const { data: Brand } = brandname()
   const { data: Purchase } = usegetuserpurcahseorrent(10, "Purchase")
-  console.log(Purchase);
-
   return (
     <div className='mt-12 p-5'>
       <h1 className='w-[90%]  mx-auto  text-base md:text-2xl font-bold capitalize  text-black'>View Your All Purcahses</h1>
@@ -21,7 +20,7 @@ const Viewpurchases = (props: Props) => {
           {
             Purchase?.map((car: Record<string, any>) => {
               return (
-                <Carcard data={car} />
+                <RentorPurchaseCard data={car.CarModal} payment={car} />
               )
             })
 

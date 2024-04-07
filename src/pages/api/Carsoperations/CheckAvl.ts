@@ -8,17 +8,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         const { carid, RentorSell,startdate,enddate } = req.body
         let isavailable:boolean;
         if (RentorSell === "Sell") {
-        const    data = await prisma.purchase.findMany({
+           
+            
+        const    data = await prisma.purchase.findFirst({
                 where: {
                     carModalId: carid
+                },
+                orderBy: {
+                   createdAt:"desc" // Order by end date in descending order to get the latest
                 },
                 include: {
                     CarModal : true // Include the associated CarModal model
                 }
             })
-            if(!data)
+            console.log(data);
+            
+            if(data)
             {
-                return res.status(400).json({ error: 'Start date must be greater than the end date of the last rental.',isavailable:false });
+                return res.status(200).json({ message: 'Start date must be greater than the end date of the last rental.',isavailable:false });
             }
             return res.status(200).json({message:"Slot is empty" ,isavailable:true})
 
@@ -39,10 +46,15 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             if (latestEndDate) {
                 const lastEndDate = new Date(latestEndDate.enddatetime);
                 const newStartDate = new Date(startdate);
+                console.log(startdate,"fffff");
+                console.log(lastEndDate,"fff");
+                console.log(newStartDate);
+                
+                
                 
                 // Compare the start date of the new rental with the end date of the last rental
-                if (newStartDate <= lastEndDate) {
-                    return res.status(400).json({ error: 'Start date must be greater than the end date of the last rental.',isavailable:false });
+                if (newStartDate < lastEndDate) {
+                    return res.status(200).json({  message: 'Start date must be greater than the end date of the last rental.',isavailable:false });
                 }
             }
              return res.status(200).json({message:"Slot is empty" ,isavailable:true})

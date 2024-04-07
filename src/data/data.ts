@@ -66,13 +66,13 @@ export const getuserinfodata = () => {
       showdownarrow: true
     },
    
-    {
-      icons: RiLockPasswordLine,
-      href: `/changepassword`,
-      label: 'Change Password',
-      active: pathname === `/news`,
-      showdownarrow: false
-    },
+    // {
+    //   icons: RiLockPasswordLine,
+    //   href: `/changepassword`,
+    //   label: 'Change Password',
+    //   active: pathname === `/news`,
+    //   showdownarrow: false
+    // },
 
   ];
 }

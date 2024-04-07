@@ -1,6 +1,6 @@
 import { getuserinfodata } from '@/data/data'
 import { isPageStatic } from 'next/dist/build/utils';
-import React from 'react'
+import React, { useCallback } from 'react'
 import { useSelector } from 'react-redux';
 import { RiLockPasswordLine } from 'react-icons/ri';
 import {FaRegEdit,FaCar} from 'react-icons/fa'
@@ -8,6 +8,9 @@ import {MdCarRental} from 'react-icons/md'
 import { useCurrentUser } from '../../hooks/usecurrent';
 import { CiLogout } from "react-icons/ci";
 import { useRouter } from 'next/router';
+import { toggleEditPassowordModal } from '@/store';
+import { useDispatch } from 'react-redux';
+import { signOut } from 'next-auth/react'
 interface Props  {
 isOpen:boolean
 }
@@ -15,9 +18,17 @@ const Userinfodata:React.FC<Props>=({isOpen})=> {
 
      const userinfo=getuserinfodata();
      const {data:currentuser}=useCurrentUser()
+     const dispatch = useDispatch();
      const isuserinfonavbar = useSelector((state: any) => state.userinfonavbar.isOpen);
      const router=useRouter();
-     
+     const handleclose = useCallback(
+      () => {
+          console.log('heeo');
+
+          dispatch(toggleEditPassowordModal())
+      },
+      [dispatch, toggleEditPassowordModal],
+  )
     
    if(isOpen && currentuser)
      return (
@@ -36,7 +47,14 @@ const Userinfodata:React.FC<Props>=({isOpen})=> {
                   {item.label}</h1>
             )
          })}
-          <h1 className='text-base py-2 tracking-wide font-normal flex items-center justify-start gap-3 hover:underline '><CiLogout size={20}/> LogOut
+          <h1 className='text-base py-2 tracking-wide font-normal flex items-center justify-start gap-3 hover:underline ' 
+          onClick=
+            {handleclose
+         }><RiLockPasswordLine size={20} />Change Password
+           </h1>
+          <h1 className='text-base py-2 tracking-wide font-normal flex items-center justify-start gap-3 hover:underline ' onClick={()=>{
+            signOut()
+          }}><CiLogout size={20}/> LogOut
            </h1>
     </div>
     

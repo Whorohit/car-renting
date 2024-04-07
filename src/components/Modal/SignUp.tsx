@@ -11,7 +11,7 @@ import { toggleLoginModal, toggleSignUpModal } from '@/store'
 interface Props { }
 
 const SignUp: React.FC<Props> = ({ }) => {
-  const [Password, setPassword] = useState('')
+  const [password, setpassword] = useState('')
   const [email, setEmail] = useState('')
   const [name, setName] = useState('')
   const dispatch = useDispatch();
@@ -20,26 +20,36 @@ const SignUp: React.FC<Props> = ({ }) => {
   const [isloading, setisloading] = useState(false)
   const onSubmit = useCallback(
     async () => {
-      // try {
+      try {
       setisloading(true)
       await axios.post('/api/Signup', {
         name,
         email,
-        Password
+        password
       })
-      const result = await signIn('credentials', { email, Password })
+      .then(()=>{
+      setTimeout(() => {
+        const result = signIn('credentials', {
+          email,
+          password,
+        });
+      }, 6000);
 
+      }
+        
+      )
+      
 
       console.log('ehhhh');
 
-      // } catch (error) {
-      //   console.log(error);
-      // }
-      // finally {
-      //   setisloading(false)
-      // }
+      } catch (error) {
+        console.log(error);
+      }
+      finally {
+        setisloading(false)
+      }
     },
-    [email, Password, name],
+    [email, password, name],
 
   )
   const handleclosesignup = useCallback(
@@ -64,20 +74,23 @@ const SignUp: React.FC<Props> = ({ }) => {
       <Input placeholder='John Smith'
         classname='w-full px-2'
         label='Name'
+        classnamelabel='w-full px-2'
         onchange={(e) => { setName(e.target.value) }}
         value={name}
       />
       <Input placeholder='ram12@gmail.com'
         classname='w-full px-2'
         label='Email'
+        classnamelabel='w-full px-2'
         onchange={(e) => { setEmail(e.target.value) }}
         value={email}
       />
       <Input placeholder='123acc'
         label='Password'
         classname='w-full px-2'
-        onchange={(e) => { setPassword(e.target.value) }}
-        value={Password}
+        classnamelabel='w-full px-2'
+        onchange={(e) => { setpassword(e.target.value) }}
+        value={password}
       />
     </div>
   )

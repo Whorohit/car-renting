@@ -22,3 +22,6 @@
 .animateOnce {
     animation: rotate-additional 3s linear forwards  ;
 }
+.no-scrollbar::-webkit-scrollbar { 
+    display: none; 
+} 

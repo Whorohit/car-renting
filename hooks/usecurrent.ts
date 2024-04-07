@@ -3,7 +3,7 @@ import fetcher from "../libs/fetcher"
 
 export const useCurrentUser=()=>{
     const{data,isLoading,error,mutate}=useSWR('/api/current',fetcher,{
- //  revalidateOnMount: false
+   revalidateOnMount: true
     })
    
     return{

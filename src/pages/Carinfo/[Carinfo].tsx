@@ -8,7 +8,7 @@ import { IoLocationOutline } from "react-icons/io5";
 import { MdOutlineSell, MdOutlineVerified, MdSell, MdVerified } from 'react-icons/md';
 import { useCurrentUser } from '../../../hooks/usecurrent';
 import { CiCircleMinus } from 'react-icons/ci';
-import Carcard from '@/components/Carcard';
+import Carcard from '@/components/Carcard/Carcard';
 import Similarproduct from '@/components/Similarprduct';
 import category from '../../../public/category.json'
 import { brandname } from '../../../hooks/brandname';
@@ -19,7 +19,8 @@ import { usegetcarinfo } from '../../../hooks/usegetcarinfo';
 import Popup from '@/components/Popup';
 import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
-import { togglePopup } from '@/store';
+import { toggleLoginModal, togglePopup } from '@/store';
+import toast, { Toaster } from 'react-hot-toast';
 
 interface Props {
   data: Record<string, any>
@@ -38,10 +39,13 @@ const Carinfo: React.FC<Props> = ({ data, }) => {
 
   const { data: currentUser } = useCurrentUser();
 
-  console.log(currentUser);
 
 
 
+
+ 
+ 
+ 
   const [user, setuser] = useState(false)
   const { data: Brand } = brandname()
   const [isavailable, setisavailable] = useState(null)
@@ -55,10 +59,36 @@ const Carinfo: React.FC<Props> = ({ data, }) => {
       totalday: 1
     }
   )
+  console.log(data,"ggg");
+  
   const gettotalday = (start: Date, end: Date) => {
-    const oneDay = 24 * 60 * 60 * 1000; // hours*minutes*seconds*milliseconds
-    const diffDays = Math.round(Math.abs((start.getTime() - end.getTime()) / oneDay));
+    const startUTC = Date.UTC(start.getFullYear(), start.getMonth(), start.getDate());
+    const endUTC = Date.UTC(end.getFullYear(), end.getMonth(), end.getDate());
+  
+    // Calculate the difference in milliseconds
+    const diffMilliseconds = Math.abs(startUTC - endUTC);
+  
+    // Convert milliseconds to days
+    const oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
+    const diffDays = Math.round(diffMilliseconds / oneDay);
+  
+
     return diffDays;
+  }
+  function formatDate(dateString: Date) {
+    // Create a new Date object from the given string
+    const date = new Date(dateString);
+
+    // Extract day, month, and year components
+    const day = date.getDate().toString().padStart(2, '0');
+    const month = (date.getMonth() + 1).toString().padStart(2, '0'); // Month is zero-based, so add 1
+    const year = date.getFullYear();
+
+    // Construct the formatted date string
+    const formattedDate = `${day}-${month}-${year}`;
+    console.log(formattedDate);
+
+    return formattedDate;
   }
 
   const toogleselectimg = useCallback(
@@ -69,48 +99,149 @@ const Carinfo: React.FC<Props> = ({ data, }) => {
   )
 
   const setstartdate = (d: Date) => {
-    if (d <= purchaseorrentdetails.enddate) {
+  
+      const totalday = gettotalday(d, purchaseorrentdetails.enddate);
       setpurchaseorrentdetails({
         ...purchaseorrentdetails,
         startdate: d,
-        totalday: gettotalday(purchaseorrentdetails.startdate, d)
-      })
-    }
-
-  }
+        totalday: totalday >= 1 ? totalday : 1
+      });
+    
+  };
+  
   const setenddate = (d: Date) => {
-    setpurchaseorrentdetails({
-      ...purchaseorrentdetails,
-      enddate: d,
-      totalday: gettotalday(purchaseorrentdetails.startdate, d)
-    })
-
-
-  }
+   
+      const totalday = gettotalday(purchaseorrentdetails.startdate, d);
+      setpurchaseorrentdetails({
+        ...purchaseorrentdetails,
+        enddate: d,
+        totalday: totalday >= 1 ? totalday : 1
+      });
+    
+  };
 
   const togglecheckavl = async () => {
 
 
-    const response = await axios.post("/api/Carsoperations/CheckAvl", {
-      carid: data.id, RentorSell: data.RentorSell, startdate: purchaseorrentdetails.startdate, enddate: purchaseorrentdetails.enddate
-    })
-    const { isavailable } = await response.data;
+    try {
+   
 
-    setisavailable(isavailable)
+      const response = await axios.post("/api/Carsoperations/CheckAvl", {
+        carid: data.id, RentorSell: data.RentorSell, startdate: purchaseorrentdetails.startdate, enddate: purchaseorrentdetails.enddate
+      })
 
+      const { isavailable, message } = await response.data;
+      if (isavailable)
+        toast.success(message, {
+          duration: 4000,
+          position: 'top-center'
+        });
+      else {
+        toast.error(message, {
+          duration: 4000,
+          position: 'top-center'
+        });
+      }
+
+
+      setisavailable(isavailable)
+
+    } catch (error) {
+      toast.error("SomeThing went Wrong", {
+        duration: 4000,
+        position: 'top-center'
+      });
+    }
   }
+   console.log(currentUser);
+   
   const togglepopmodal = useCallback(
     () => {
-      dispatch(togglePopup())
+
+
+      if (currentUser && currentUser?.id) {
+        dispatch(togglePopup())
+      }
+      if (!currentUser || currentUser === undefined) {
+        dispatch(toggleLoginModal())
+        return
+      }
+
     },
-    [dispatch, togglePopup],
+    [dispatch, togglePopup,],
   )
+
+
+  const checkouthandler = 
+    async () => {
+      try {
+        const { data: { key } } = await axios.get("http://localhost:3000/api/getkey")
+        const totalPrice = data.RentorSell === "Rent"
+        ? Math.floor((Number(data.price) * purchaseorrentdetails.totalday) * 0.5)
+        : Math.floor(Number(data.price) * 0.005);
+
+        const { data: { order } } = await axios.post("http://localhost:3000/api/checkout", {
+          amount: totalPrice
+        })
+
+        const callbackUrl = "http://localhost:3000/api/paymentverification";
+        let queryParams = ( data.RentorSell==="Rent"? new URLSearchParams({
+          price: totalPrice.toString(),
+          userId: currentUser?.id.toString(),
+          carModalId: data.id.toString(),
+          Mode: data.RentorSell,
+          startdate: data.RentorSell === "Rent" ? formatDate(purchaseorrentdetails.startdate) : "",
+          enddate: data.RentorSell === "Rent" ? formatDate(purchaseorrentdetails.enddate) : ""
+        }): new URLSearchParams({
+          price: totalPrice.toString(),
+          userId: currentUser?.id.toString(),
+          carModalId: data.id.toString(),
+          Mode: data.RentorSell,
+        
+        }))
+
+        const urlWithParams = `${callbackUrl}?${queryParams.toString()}`;
+        const options = {
+          key: key,
+          amount: order.amount,
+          currency: "INR",
+          name: `${data.name}`,
+          description: "user",
+          image: "https://avatars.githubusercontent.com/u/25058652?v=4",
+          order_id: order.id,
+          callback_url: urlWithParams,
+          prefill: {
+            name: `${currentUser?.name}`,
+            email: `${currentUser?.email}`,
+            contact: "9999999999"
+          },
+          notes: {
+            "address": "Razorpay Corporate Office"
+          },
+          theme: {
+            "color": "#121212"
+          }
+        };
+        const razor = new window.Razorpay(options);
+        razor.open();
+      } catch (error) {
+        console.log(error);
+
+      }
+      finally {
+        togglepopmodal()
+      }
+    }
+    
+
+
 
 
 
   return (
     <>
-      <Popup message={`Are you absolutely sure to ${data.RentorSell} this?`} isshowPopup={ispopupModal} handleclosepop={togglepopmodal} />
+      <Toaster />
+      <Popup message={`Are you absolutely sure to ${data.RentorSell} this?`} isshowPopup={ispopupModal} handleclosepop={togglepopmodal} performaction={checkouthandler} />
       <div className='mt-12 p-5'>
         <div className=' w-[90%] mx-auto flex lg:flex-row flex-col  gap-4 min-h-[35rem]    '>
           <div className='flex gap-3 basis-[70%]'>
@@ -144,6 +275,9 @@ const Carinfo: React.FC<Props> = ({ data, }) => {
               <h1 className='py-2 px-1 text-neutral-600 bg-blue-200 text-center text-sm  rounded-md  my-5  w-[80%] mx-auto'>
                 Duration to rent a car is  <span className='text-black'>1 month only</span>
               </h1>
+              <h1 className='py-2 px-1 text-neutral-600 bg-blue-200 text-center text-sm  rounded-md  my-5  w-[80%] mx-auto'>
+                To  a purchase  car you have to pay   <span className='text-black'>10% of Car price & for rent 50%</span>
+              </h1>
               <div className='h-[1px] my-6  bg-neutral-200 mx-auto  w-[80%]' />
               <div className='relative'>
                 <IoLocationOutline className='absolute bottom-2 left-8' />
@@ -154,7 +288,7 @@ const Carinfo: React.FC<Props> = ({ data, }) => {
               <div className='w-[90%] mx-auto'>
                 <div className='flex justify-between my-4 '>
                   <h1 className='text-neutral-500 text-base font-semibold'>Base Price</h1>
-                  <h1 className='text-black  text-base font-semibold'> <FaIndianRupeeSign className='inline' />{data.price} <sup className='text-neutral-400 text-sm'>per Hour</sup>  </h1>
+                  <h1 className='text-black  text-base font-semibold'> <FaIndianRupeeSign className='inline' />{data.price} <sup className='text-neutral-400 text-sm'>per Day</sup>  </h1>
                 </div>
                 {/* <div className='flex justify-between my-4 '>
              <h1 className='text-neutral-500 text-base font-semibold'> Price for 4 days</h1>
@@ -170,8 +304,11 @@ const Carinfo: React.FC<Props> = ({ data, }) => {
             </div>)
             : (<div className='basis-[30%] rounded-md  border-2 border-gray-200 p-2'>
               <h1 className='my-2  w-[80%] mx-auto text-start font-semibold text-2xl tracking-wide  '>Booking Information </h1>
-              <h1 className='py-2 px-1 text-neutral-600 bg-blue-200 text-center text-sm  rounded-md  my-5  w-[80%] mx-auto'>
+              <h1 className='py-2 px-1 text-neutral-600 bg-blue-200 text-center text-sm  rounded-md  my-5  w-[90%] mx-auto'>
                 Duration to rent a car is  <span className='text-black'>1 month only</span>
+              </h1>
+              <h1 className='py-2 px-1 text-neutral-600 bg-blue-200 text-center text-sm  rounded-md  my-5  w-[90%] mx-auto'>
+                To a purchase car you have to pay <span className='text-black'>10 % of Car price &  for rent 50%</span>
               </h1>
               <div className='h-[1px] my-6  bg-neutral-200 mx-auto  w-[80%]' />
               <div className='relative'>
@@ -193,7 +330,7 @@ const Carinfo: React.FC<Props> = ({ data, }) => {
               <div className='w-[90%] mx-auto'>
                 <div className='flex justify-between my-4 '>
                   <h1 className='text-neutral-500 text-base font-semibold'>Base Price</h1>
-                  <h1 className='text-black  text-base font-semibold'> <FaIndianRupeeSign className='inline' />{data.price} <sup className='text-neutral-400 text-sm'>per Hour</sup>  </h1>
+                  <h1 className='text-black  text-base font-semibold'> <FaIndianRupeeSign className='inline' />{data.price} <sup className='text-neutral-400 text-sm'>{ data.RentorSell==="Rent"?'per Day':"Only"}</sup>  </h1>
                 </div>
                 {data.RentorSell == "Rent" && <div className='flex justify-between my-4 '>
                   <h1 className='text-neutral-500 text-base font-semibold'> Price for {purchaseorrentdetails.totalday} days</h1>
@@ -202,7 +339,8 @@ const Carinfo: React.FC<Props> = ({ data, }) => {
               </div>
               <div className='w-[90%] mx-auto'>
                 <button className='bg-transparent font-bold my-2  border-blue-200 hover:scale-90 hover:bg-blue-300 hover:text-black cursor-pointer  border-2 px-3   py-1 rounded-xl w-[90%] ml-5 mr-auto ' onClick={togglecheckavl} >Check Availability</button>
-                {isavailable === true && <button className='bg-transparent font-bold  border-blue-200 hover:scale-90 hover:bg-blue-300 hover:text-black cursor-pointer  border-2 px-3 my-2   py-1 rounded-xl w-[90%] ml-5 mr-auto ' onClick={togglepopmodal}  >Book Now</button>}
+                {isavailable === true && <button className='bg-transparent font-bold  border-blue-200 hover:scale-90 hover:bg-blue-300 hover:text-black cursor-pointer  border-2 px-3 my-2   py-1 rounded-xl w-[90%] ml-5 mr-auto ' onClick={togglepopmodal}  >{data.
+                  RentorSell == "Rent" ? "Book Now" : "Pay Advance"}</button>}
               </div>
             </div>)
           }

@@ -1,8 +1,8 @@
 import Image from 'next/image';
 import React from 'react'
-import { brandname } from '../../hooks/brandname';
+import { brandname } from '../../../hooks/brandname';
 import { FaArrowRight } from 'react-icons/fa';
-import { MdOutlineKeyboardArrowRight } from 'react-icons/md'
+import { MdOutlineKeyboardArrowRight, MdSell } from 'react-icons/md'
 
 import { BiSolidBadgeCheck } from "react-icons/bi";
 import { useRouter } from 'next/navigation';
@@ -26,8 +26,10 @@ const Carcard: React.FC<Props> = ({ data = {} }) => {
             <Image src={data.coverimg} alt='car image' width={100} className='basis-1/3 p-4' quality={100} height={100} />
 
             <div className=' basis-2/3 '>
-                <div className='flex justify-end items-center'>
+                <div className='flex justify-end items-center gap-4'>
+
                     <h1 className='flex justify-end items-center gap-1 border-[1px] px-2 font-light border-neutral-400 rounded-md'> {data.verify ? `${`verifed  `}` : `not Verifed `} <BiSolidBadgeCheck color={data.verify ? "blue" : "gray"} size={15} /> </h1>
+                    <h1 className='flex justify-end items-center gap-1 border-[1px] px-2 font-light border-neutral-400 rounded-md'> {data.RentorSell==="Rent" ? `${`Rent  `}` : `Sell `} <MdSell color={ "blue"} size={15} /> </h1>
                 </div>
                 <h1 className='font-normal mt-3 flex items-center gap-5   text-base md:text-lg  tracking-normal   w-full text-black '>{data?.brand?.brandname} {data.Modal}<MdOutlineKeyboardArrowRight className='inline' color='gray' /> </h1>
                 <h1 className=' mt-2  text-sm md:text-base  text-neutral-600 '>

@@ -10,6 +10,8 @@ import { SessionProvider } from "next-auth/react";
 import type { AppProps } from "next/app";
 import Userinfodata from "@/components/useinfomoblieview";
 import Popup from "@/components/Popup";
+import Editpassword from "@/components/Modal/Editpassword";
+import FilterBoard from "@/components/FilterBoard";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -20,7 +22,8 @@ export default function App({ Component, pageProps }: AppProps) {
     <Provider store={store}>
       <main className="font-sans relative" >
         <Userinfodata />
-
+        <Editpassword />
+        <FilterBoard/>
         <SignUp />
         <Login />
         <Sidenavbar />

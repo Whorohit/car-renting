@@ -2,7 +2,7 @@ import CategoryFilter from '@/components/CategoryFilter';
 import { useRouter } from 'next/router';
 import React from 'react'
 import { usefetchcars } from '../../../hooks/usefetchcar';
-import Carcard from '@/components/Carcard';
+import Carcard from '@/components/Carcard/Carcard';
 import Similarproduct from '@/components/Similarprduct';
 import { brandname } from '../../../hooks/brandname';
 

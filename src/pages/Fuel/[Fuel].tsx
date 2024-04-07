@@ -1,4 +1,4 @@
-import Carcard from '@/components/Carcard';
+import Carcard from '@/components/Carcard/Carcard';
 import CategoryFilter from '@/components/CategoryFilter';
 import Similarproduct from '@/components/Similarprduct';
 import { useRouter } from 'next/router';

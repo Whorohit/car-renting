@@ -27,9 +27,26 @@ interface ModalState {
 const initialState:ModalState = {
   isOpen:false
 };
-const ModalState:ModalState = {
-  isOpen: false,
-};
+
+interface Filter{
+ isOpen:boolean;
+ Brand:string[];
+ Category:string[];
+ Fuel:string[];
+ Budget:number[];
+ sort:string
+
+
+}
+const filter:Filter={
+  isOpen:false,
+  Brand:[],
+  Category:[],
+ Fuel:[],
+ Budget:[],
+ sort:"des"
+
+}
 
 const loginModalslice = createSlice({
   name: "login",
@@ -41,7 +58,7 @@ const loginModalslice = createSlice({
   },
 })
 const PopupModalslice = createSlice({
-  name: "Popu[",
+  name: "Popup",
   initialState,
   reducers: {
     togglePopup: (state) => {
@@ -69,14 +86,101 @@ const SignUpModalslice = createSlice({
     },
   },
 })
+const EditPasswordModalslice = createSlice({
+  name: "Editpassword",
+  initialState,
+  
+  reducers: {
+    toggleEditPassowordModal: (state) => {
+     state.isOpen = !state.isOpen; //; // Toggles the state between true and false
+    },
+  },
+})
+
+
+// extra reducer for carfilter 
+
+export const setBrandKey = createAsyncThunk<
+  string[],
+  { item: string },
+  { state: { Filter: Filter } }
+>(
+  'filter/Brand',
+  async ({ item }, thunkAPI) => {
+    try {
+      const currentState = thunkAPI.getState();
+      const updatedTab = [...currentState.Filter.Brand];
+
+      const index = updatedTab.indexOf(item);
+      if (index !== -1) {
+        updatedTab.splice(index, 1);
+      } else {
+        updatedTab.push(item);
+      }
+
+      console.log(updatedTab);
+      return updatedTab;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+);
+export const setCategoryKey = createAsyncThunk<
+  string[],
+  { item: string },
+  { state: { Filter: Filter } }
+>(
+  'filter/Category',
+  async ({ item }, thunkAPI) => {
+    try {
+      const currentState = thunkAPI.getState();
+      const updatedTab = [...currentState.Filter.Category];
+
+      const index = updatedTab.indexOf(item);
+      if (index !== -1) {
+        updatedTab.splice(index, 1);
+      } else {
+        updatedTab.push(item);
+      }
+
+      console.log(updatedTab);
+      return updatedTab;
+    } catch (error) {
+      console.error(error);
+      throw error;
+    }
+  }
+);
+
+const CarFilterModalslice = createSlice({
+  name: "Filter",
+  initialState:filter,
+  extraReducers:(builder)=>{
+    builder.addCase(setBrandKey.fulfilled, (state, action) => {
+      state.Brand = action.payload;
+    });
+    builder.addCase(setCategoryKey.fulfilled, (state, action) => {
+      state.Category = action.payload;
+    });
+  },
+  reducers: {
+    toggleEditPassowordModal: (state) => {
+     state.isOpen = !state.isOpen; //; // Toggles the state between true and false
+    },
+  },
+})
+
 
 
 export const { toggleLoginModal } = loginModalslice.actions;
 export const { toggleSignUpModal } = SignUpModalslice.actions;
 export const { toggleuserinfo } = userinfoslice.actions;
 export const { togglePopup} = PopupModalslice.actions;
+export const { toggleEditPassowordModal} = EditPasswordModalslice.actions;
 
 export const loginModalReducer = loginModalslice.reducer;
 export const signUpModalReducer = SignUpModalslice.reducer;
 export const userinfoModalReducer = userinfoslice.reducer;
 export const PopupModalReducer = PopupModalslice.reducer;
+export const EditPasswordModalsliceReducer = EditPasswordModalslice.reducer;

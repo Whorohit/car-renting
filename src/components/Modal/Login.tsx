@@ -4,6 +4,8 @@ import Modal from './Modal'
 import { signIn } from 'next-auth/react'
 import { useDispatch, useSelector } from 'react-redux'
 import { toggleLoginModal, toggleSignUpModal } from '@/store'
+import toast, { Toaster } from 'react-hot-toast';
+
 
 interface Props { }
 
@@ -16,7 +18,7 @@ const Login: React.FC<Props> = ({ }) => {
   const onsubmit = useCallback(
     async () => {
       try {
-        console.log(password, email);
+        
 
         await signIn('credentials', { email, password })
       } catch (error) {
@@ -77,6 +79,7 @@ const Login: React.FC<Props> = ({ }) => {
   return (
     <div className=''>
       <>
+      <Toaster />
         <Modal
 
           title='Login'
