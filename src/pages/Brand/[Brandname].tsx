@@ -6,10 +6,12 @@ import { usefetchcars } from '../../../hooks/usefetchcar';
 import Carcard from '@/components/Carcard/Carcard';
 import Similarproduct from '@/components/Similarprduct';
 import data from '../../../public/category.json'
+import { useSelector } from 'react-redux';
 type Props = {}
 
 function Category({ }: Props) {
   const router = useRouter();
+  const isFilterOpen = useSelector((state: any) => state.Filter.isOpen);
   const { Brandname } = router.query;
   const { data: cars } = usefetchcars('brandId', `${Brandname}`);
   const { data: Brand } = brandname()

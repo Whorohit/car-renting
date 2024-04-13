@@ -5,7 +5,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method !== 'GET')
         return res.status(485).end()
     try {
-    const { brandId, Body, fuel, transmission, drivetrain, option } = req.query
+    const { brandId, Body, fuel, transmission, drivetrain, option,pagesize } = req.query
     // if (typeof brandId !== 'string'||  typeof type !=="string" || typeof  fuel!=='string' ||typeof transmission!=='string' || typeof drivetrain !=='string' || typeof option  !=='string') {
     //     throw new Error('Invaild Id')
 
@@ -42,8 +42,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                         brandname: true
                       }
                     }
+                
                   
-            }
+            },
+            take: parseInt(pagesize as string) || 10
 
         })
         const serializedCars = cars?.map(car => ({

@@ -165,7 +165,7 @@ const CarFilterModalslice = createSlice({
     });
   },
   reducers: {
-    toggleEditPassowordModal: (state) => {
+    toggleFilterModal: (state) => {
      state.isOpen = !state.isOpen; //; // Toggles the state between true and false
     },
   },
@@ -178,9 +178,11 @@ export const { toggleSignUpModal } = SignUpModalslice.actions;
 export const { toggleuserinfo } = userinfoslice.actions;
 export const { togglePopup} = PopupModalslice.actions;
 export const { toggleEditPassowordModal} = EditPasswordModalslice.actions;
+export const {toggleFilterModal } =  CarFilterModalslice.actions;
 
 export const loginModalReducer = loginModalslice.reducer;
 export const signUpModalReducer = SignUpModalslice.reducer;
 export const userinfoModalReducer = userinfoslice.reducer;
 export const PopupModalReducer = PopupModalslice.reducer;
 export const EditPasswordModalsliceReducer = EditPasswordModalslice.reducer;
+export const FilterModalReducer=CarFilterModalslice.reducer

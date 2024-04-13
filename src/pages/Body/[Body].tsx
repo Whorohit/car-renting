@@ -7,14 +7,18 @@ import Similarproduct from '@/components/Similarprduct';
 import { brandname } from '../../../hooks/brandname';
 
 import data from '../../../public/category.json'
+import { useSelector } from 'react-redux';
+import { useDispatch } from 'react-redux';
 type Props = {}
 
 const Body = (props: Props) => {
+  const isFilterOpen = useSelector((state: any) => state.Filter.isOpen);
   const router = useRouter();
   const { Body } = router.query;
   const { data: cars } = usefetchcars('Body', `${Body}`);
   const { data: Brand } = brandname()
   console.log(cars);
+  const dispatch=useDispatch()
 
 
   return (
