@@ -8,7 +8,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         res.status(485).end()
 
     }
-    //  try {
+     try {
     const { currentUser } = await serverAuth(req, res)
     const { oldpassword, newpassword,
     } = req.body
@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.log(user);
     const isCorrectPassword = await bcrypt.compare(
         oldpassword,
-        user?.password
+        user.password
     );
     console.log(isCorrectPassword);
 
@@ -46,7 +46,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
    
     res.status(200).json({ message: "Password update successfully", success: true })
 
-    // } catch (error) {
-    //     res.status(500).json({ message: "something  went Wrong" })
-    // }
+    } catch (error) {
+        res.status(500).json({ message: "something  went Wrong" })
+    }
 }
