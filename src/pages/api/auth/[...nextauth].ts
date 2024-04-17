@@ -3,6 +3,14 @@ import NextAuth, { AuthOptions } from "next-auth"
 import CredentialsProvider from "next-auth/providers/credentials"
 import { PrismaAdapter } from "@next-auth/prisma-adapter"
 import prisma from "../../../../libs/db"
+export interface User {
+  id: string;
+  name: string;
+  email: string;
+  password: string;
+  createdAt: Date;
+  // Add other properties as needed
+}
 
 export const authOptions: AuthOptions = {
   adapter: PrismaAdapter(prisma),
@@ -18,7 +26,7 @@ export const authOptions: AuthOptions = {
           throw new Error('Invalid  gigi credentials');
         }
 
-        const user = await prisma.user.findUnique({
+        const user: User | null  = await prisma.user.findUnique({
           where: {
             email: credentials.email
           }
