@@ -24,7 +24,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     console.log(user);
     const isCorrectPassword = await bcrypt.compare(
         oldpassword,
-        user.password
+        user?.password
     );
     console.log(isCorrectPassword);
 
