@@ -20,7 +20,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     })
     console.log(makes);
     let whereConditions: any = {};
-    const makesId = makes.map(item => item.id);
+    const makesId = makes.map((item: { id: any }) => item.id);
     whereConditions.brandId = { in: makesId };
 
     const orderBy = order && order.toLowerCase() === "desc" ? { price: "desc" } : { price: "asc" };
