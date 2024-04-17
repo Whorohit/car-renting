@@ -222,7 +222,7 @@ const Carinfo: React.FC<Props> = ({ data, }) => {
             "color": "#121212"
           }
         };
-        const razor = new window.Razorpay(options);
+         const razor = new (window as any).Razorpay(options);
         razor.open();
       } catch (error) {
         console.log(error);
