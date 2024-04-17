@@ -33,7 +33,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
         const isCorrectPassword = await bcrypt.compare(
             oldpassword,
-            user.password
+            user?.password
         );
         console.log(isCorrectPassword);
 
