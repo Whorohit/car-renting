@@ -30,6 +30,10 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 id: currentUser.id
             },
         })
+        if (!user) {
+            res.status(404).json({ message: "User not found", success: false });
+            return;
+          }
 
         const isCorrectPassword = await bcrypt.compare(
             oldpassword,
