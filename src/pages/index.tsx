@@ -14,9 +14,11 @@ import { useState } from "react";
 import { brandname, } from "../../hooks/brandname";
 import axios from "axios";
 
-export default function Home({ }) {
+export default function Home({b=[] }) {
+  console.log(b);
   const [type, settype] = useState('Body')
   const {data:brand} =   brandname(); 
+  
   return (
     <div className="mt-20 ">
       <Hero />
@@ -35,15 +37,16 @@ export default function Home({ }) {
     </div>
   );
 }
-// export async function getServerSideProps() {
-//    const  data= await fetch('http://localhost:3000/api/brandname')
-//    const brand= await data.json();
+export async function getServerSideProps() {
+   const  data= await fetch('http://localhost:3000/api/brandname')
+   const brand= await data.json();
   
-//    // Parse the JSON response
-//      return {
-//       props: {
-//         brand:brand
-//       },
+   // Parse the JSON response
+     return {
+      props: {
+        b:brand
+      },
    
-//   };
+  }
+}
   

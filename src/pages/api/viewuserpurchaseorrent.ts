@@ -46,7 +46,7 @@ import serverAuth from "../../../libs/ServerAuth";
                 driven: car?.CarModal?.driven.toString()
             }
         }));
-        console.log(serializedCars);
+        console.log(serializedCars,"ffff");
         
         return res.status(200).json(serializedCars);
      }
