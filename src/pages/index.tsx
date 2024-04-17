@@ -14,8 +14,8 @@ import { useState } from "react";
 import { brandname, } from "../../hooks/brandname";
 import axios from "axios";
 
-export default function Home({b=[] }) {
-  console.log(b);
+export default function Home({} ) {
+  
   const [type, settype] = useState('Body')
   const {data:brand} =   brandname(); 
   
@@ -37,16 +37,16 @@ export default function Home({b=[] }) {
     </div>
   );
 }
-export async function getServerSideProps() {
-   const  data= await fetch('http://localhost:3000/api/brandname')
-   const brand= await data.json();
+// export async function getServerSideProps() {
+//    const  data= await fetch('http://localhost:3000/api/brandname')
+//    const brand= await data.json();
   
-   // Parse the JSON response
-     return {
-      props: {
-        b:brand
-      },
+//    // Parse the JSON response
+//      return {
+//       props: {
+//         b:brand
+//       },
    
-  }
-}
+//   }
+// }
   

@@ -34,7 +34,9 @@ const InfinteSrcoll: React.FC<Props> = ({ data=[], next, hasmore
             }
             className={className?className:""}
             hasMore={hasMore}
-            loader={<Spinner/>}
+            loader={<h1 className='text-center'>
+                <Spinner/>
+            </h1>}
             scrollableTarget="scrollableDiv"
         >
 {children}
