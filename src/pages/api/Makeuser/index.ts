@@ -97,7 +97,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                     take: pageSize 
                 }
             )
-            const serializedCars = userspostcar.map(car => ({
+            const serializedCars = userspostcar.map((car:any) => ({
                 ...car,
                 driven: car.driven.toString(),
                 price: car.price.toString(), 
