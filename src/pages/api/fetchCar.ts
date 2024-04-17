@@ -5,7 +5,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
     if (req.method !== 'GET')
         return res.status(485).end()
     try {
-    const { brandId, Body, fuel, transmission, drivetrain, option,pagesize } = req.query
+    const { brandId, Body, fuel, transmission, drivetrain, option,pagenumber } = req.query
     // if (typeof brandId !== 'string'||  typeof type !=="string" || typeof  fuel!=='string' ||typeof transmission!=='string' || typeof drivetrain !=='string' || typeof option  !=='string') {
     //     throw new Error('Invaild Id')
 
@@ -17,8 +17,24 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     else {
         
-        console.log(brandId ,'heello');
-           
+        console.log(pagenumber);
+        let take = 10; // Default number of items per page
+        let skip = 0; // Number of items to skip
+
+        if (pagenumber && parseInt(pagenumber as string) > 0) {
+            skip = (parseInt(pagenumber as string) - 1) * take;
+        }
+        console.log(skip,take);
+        const countCar=await prisma.carModal.count({
+            where:{
+                brandId: brandId?.toString(),
+                fuel: fuel?.toString(),
+                transmission: transmission?.toString(),
+                drivetrain: drivetrain?.toString(),
+                Body: Body?.toString()
+
+            }
+        })
         const cars = await prisma.carModal.findMany({
             where: {
                 brandId: brandId?.toString(),
@@ -45,7 +61,9 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
                 
                   
             },
-            take: parseInt(pagesize as string) || 10
+            take:take,
+            skip:skip,
+            
 
         })
         const serializedCars = cars?.map(car => ({
@@ -54,7 +72,8 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             driven: car.driven.toString() // Convert BigInt to string
         }));
         
-        return res.status(200).json(serializedCars);
+        
+        return res.status(200).json({serializedCars,countCar});
     }
     } catch (error) {
         console.log(error);

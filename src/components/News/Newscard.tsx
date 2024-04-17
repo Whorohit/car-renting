@@ -11,10 +11,10 @@ import {
 import Link from 'next/link'
 
 interface Props {
-    news: Record<string, any>
+    data: Record<string, any>
 }
 
-const Newscard: React.FC<Props> = ({ news }) => {
+const Newscard: React.FC<Props> = ({ data }) => {
 
     
     return (
@@ -23,18 +23,18 @@ const Newscard: React.FC<Props> = ({ news }) => {
 
 
 
-            <Image src={`https://www.nytimes.com/${news.multimedia[0].url}`} alt='car image' width={400} className='  md:basis-1/3 p-4 rounded-md' quality={100} height={300} />
+            <Image src={`https://www.nytimes.com/${data.multimedia[0]?.url}`} alt='car image' width={400} className='  md:basis-1/3 p-4 rounded-md' quality={100} height={300} />
             <div className=' basis-2/3 '>
                 <h1 className='font-semibold w-[80%] ml-10 text-neutral-700 text-lg  tracking-wider '>
-                    {news.headline.main}
+                    {data.headline.main}
                 </h1>
                 <h1 className='text-base text-blue-400 font-normal w-[80%]  ml-10' >
-                    {news.lead_paragraph
+                    {data.lead_paragraph
                     }
                 </h1>
                 <div className='flex justify-start gap-x-4 items-center flex-wrap w-[80%]  ml-10'>
                     {
-                        news?.keywords?.map((item: any) => {
+                        data?.keywords?.map((item: any) => {
                             return (
                                 <h1 className='font-extralight text-neutral-400 text-sm '>#{item.value}</h1>
                             )
@@ -43,8 +43,8 @@ const Newscard: React.FC<Props> = ({ news }) => {
                     }
 
                 </div>
-                <h1 className='ml-10 w-[80%] font-bold text-base text-black mb-5'> From -{news.source}</h1>
-                <Link className='ml-10 bg-transparent font-bold  border-blue-200 hover:scale-90 hover:bg-blue-300 hover:text-black cursor-pointer  border-2 px-3  py-1 rounded-xl  ' href={news.web_url
+                <h1 className='ml-10 w-[80%] font-bold text-base text-black mb-5'> From -{data.source}</h1>
+                <Link className='ml-10 bg-transparent font-bold  border-blue-200 hover:scale-90 hover:bg-blue-300 hover:text-black cursor-pointer  border-2 px-3  py-1 rounded-xl  ' href={data.web_url
                 }>Read More</Link>
 
             </div>

@@ -17,6 +17,7 @@ type Props = {
 const Carcard: React.FC<Props> = ({ data = {} }) => {
     const router = useRouter()
 
+
     return (
         <div className='flex flex-row gap-0 
      border-neutral-300 border-2 p-2 w-[90%]  justify-between rounded-lg h-[rem]  tex ' onClick={() => {

@@ -7,22 +7,22 @@ import Carcard from '@/components/Carcard/Carcard';
 import Similarproduct from '@/components/Similarprduct';
 import data from '../../../public/category.json'
 import { useSelector } from 'react-redux';
+import InfinteSrcoll from '@/components/InfintSrcoll';
 type Props = {}
 
 function Category({ }: Props) {
   const router = useRouter();
   const isFilterOpen = useSelector((state: any) => state.Filter.isOpen);
   const { Brandname } = router.query;
-  const { data: cars } = usefetchcars('brandId', `${Brandname}`);
+  const {data: cars = [], mutate, error, size, setSize, totalcount } = usefetchcars('brandId', `${Brandname}`);
   const { data: Brand } = brandname()
   console.log(cars);
   //  const name=Brand.filter((item:any)=>{
   //    return Brandname===Brand.id
   //  })
-  console.log(Brand);
-  console.log(cars);
-
-
+  console.log(cars?.length+1 < totalcount);
+  
+  
   return (
     <div className='mt-4   md:p-10 relative'>
       <h1 className='w-[90%] mx-auto text-2xl font-bold capitalize tracking-wider text-neutral-800'>Cars</h1>
@@ -32,13 +32,25 @@ function Category({ }: Props) {
       <CategoryFilter />
       <div className='flex flex-row flex-wrap      md:justify-normal w-full md:w-[80%] mx-auto mt-5 '>
         <div className='w-full  justify-start pt-12  flex flex-col items-start md:basis-[70%] gap-4'>
-          {
+          {/* {
             cars?.map((car: Record<string, any>) => {
               return (
                 <Carcard data={car} />
               )
             })
-          }
+          } */}
+          <InfinteSrcoll
+
+data={cars}
+dataLength={cars?.length}
+next={() => setSize(size + 1)}
+hasmore={cars?.length+1 < totalcount}
+className='w-[100%] flex flex-col justify-start items-center gap-5 '
+>
+{cars?.map((car: Record<string, any>) => (
+  <Carcard data={car} />
+))}
+</InfinteSrcoll>
         </div>
         <div className='   hidden md:flex flex-col gap-4 md:basis-[25%]'>
           <Similarproduct title={' Brand'} data={Brand} lengthstart={5} lengthend={11} type='Brand' />
