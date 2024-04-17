@@ -68,7 +68,7 @@ import serverAuth from "../../../libs/ServerAuth";
             }
         ) 
         
-        const serializedCars = userPurchaseorRent.map(car => ({
+        const serializedCars = userPurchaseorRent.map((car:any )=> ({
             ...car,
             price: car.price.toString(),
             startdatetime: car.startdatetime.toISOString(),

@@ -66,7 +66,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             
 
         })
-        const serializedCars = cars?.map(car => ({
+        const serializedCars = cars?.map((car:any) => ({
             ...car,
             price: car.price.toString(), // Convert BigInt to string
             driven: car.driven.toString() // Convert BigInt to string
