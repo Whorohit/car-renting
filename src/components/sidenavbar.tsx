@@ -16,9 +16,9 @@ const Sidenavbar: React.FC = () => {
   return (
     <div className='fixed  m-0 bg-white opacity-80 inset-0  justify-start  items-start flex-col z-40 hidden    px-3 '>
 
-      <div>
+      <div className='basis-1/4'>
         <Lottie
-          className='basis-1/4'
+          
           options={defaultOptions}
           height={40}
           width={40}
