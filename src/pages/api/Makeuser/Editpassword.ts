@@ -2,6 +2,15 @@ import { NextApiRequest, NextApiResponse } from "next";
 import serverAuth from "../../../../libs/ServerAuth";
 import prisma from '../../../../libs/db';
 import bcrypt from 'bcryptjs'
+
+export interface User {
+    id: string;
+    name: string;
+    email: string;
+    password: string;
+    createdAt: Date;
+    // Add other properties as needed
+  }
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
 
     if (req.method !== "PATCH") {
