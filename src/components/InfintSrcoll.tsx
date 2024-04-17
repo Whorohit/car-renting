@@ -3,7 +3,7 @@ import InfiniteScroll from 'react-infinite-scroll-component'
 import Newscard from './News/Newscard'
 import Spinner from './Spinner'
 import Lottie from 'lottie-react'
-import end from '../../../car-renting/public/end.json'
+
 type Props = {
     data: any
     next: () => void;
