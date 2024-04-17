@@ -7,7 +7,7 @@ import serverAuth from "../../../libs/ServerAuth";
      return       res.status(485).end();
  
     }
-    // try {
+    try {
         const { rentorsell ,pagesize}=req.query
         if (!rentorsell || !pagesize) {
             return res.status(400).end(); // Bad Request
@@ -36,7 +36,7 @@ import serverAuth from "../../../libs/ServerAuth";
         ) 
        
         
-        const serializedCars = userPurchaseorRent.map(car => ({
+        const serializedCars = userPurchaseorRent.map((car:any) => ({
             ...car,
             price: car.price.toString(),
             createdAt: car.createdAt.toISOString(),
@@ -85,8 +85,8 @@ import serverAuth from "../../../libs/ServerAuth";
         return res.status(200).json(serializedCars);
      }
         
-    // } catch (error) {
+    } catch (error) {
         
-    // }
+    }
     
 }
