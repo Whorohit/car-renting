@@ -42,8 +42,8 @@ import serverAuth from "../../../libs/ServerAuth";
             createdAt: car.createdAt.toISOString(),
             CarModal: {
                 ...car.CarModal,
-                price: car.CarModal.price.toString(),
-                driven: car.CarModal.driven.toString()
+                price: car?.CarModal?.price.toString(),
+                driven: car?.CarModal?.driven.toString()
             }
         }));
         console.log(serializedCars);
@@ -76,8 +76,8 @@ import serverAuth from "../../../libs/ServerAuth";
             createdAt: car.createdAt.toISOString(),
             CarModal: {
                 ...car.CarModal,
-                price: car.CarModal.price.toString(),
-                driven: car.CarModal.driven.toString()
+                price: car?.CarModal?.price.toString(),
+                driven: car?.CarModal?.driven.toString()
             }
         }));
         console.log(serializedCars);
