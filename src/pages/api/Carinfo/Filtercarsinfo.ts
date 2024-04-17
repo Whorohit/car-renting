@@ -51,7 +51,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
         },
         orderBy: order && order.toLowerCase() === "desc" ? { price: "desc" } : { price: "asc" }
     })
-    const serializedCars = carsdata?.map(car => ({
+    const serializedCars = carsdata?.map((car:any )=> ({
         ...car,
         price: car.price.toString(), // Convert BigInt to string
         driven: car.driven.toString() // Convert BigInt to string
