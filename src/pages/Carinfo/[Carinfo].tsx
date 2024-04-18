@@ -27,7 +27,7 @@ interface Props {
   currentUser: Record<string, any>
 }
 
-const Carinfo: React.FC<Props> = ({ data, }) => {
+const Carinfo: React.FC<Props> = ({ data }) => {
   const dispatch = useDispatch();
   const ispopupModal = useSelector((state: any) => state.popup.isOpen);
 
@@ -43,9 +43,9 @@ const Carinfo: React.FC<Props> = ({ data, }) => {
 
 
 
- 
- 
- 
+
+
+
   const [user, setuser] = useState(false)
   const { data: Brand } = brandname()
   const [isavailable, setisavailable] = useState(null)
@@ -59,19 +59,19 @@ const Carinfo: React.FC<Props> = ({ data, }) => {
       totalday: 1
     }
   )
-  console.log(data,"ggg");
-  
+  console.log(data, "ggg");
+
   const gettotalday = (start: Date, end: Date) => {
     const startUTC = Date.UTC(start.getFullYear(), start.getMonth(), start.getDate());
     const endUTC = Date.UTC(end.getFullYear(), end.getMonth(), end.getDate());
-  
+
     // Calculate the difference in milliseconds
     const diffMilliseconds = Math.abs(startUTC - endUTC);
-  
+
     // Convert milliseconds to days
     const oneDay = 24 * 60 * 60 * 1000; // hours * minutes * seconds * milliseconds
     const diffDays = Math.round(diffMilliseconds / oneDay);
-  
+
 
     return diffDays;
   }
@@ -99,32 +99,32 @@ const Carinfo: React.FC<Props> = ({ data, }) => {
   )
 
   const setstartdate = (d: Date) => {
-  
-      const totalday = gettotalday(d, purchaseorrentdetails.enddate);
-      setpurchaseorrentdetails({
-        ...purchaseorrentdetails,
-        startdate: d,
-        totalday: totalday >= 1 ? totalday : 1
-      });
-    
+
+    const totalday = gettotalday(d, purchaseorrentdetails.enddate);
+    setpurchaseorrentdetails({
+      ...purchaseorrentdetails,
+      startdate: d,
+      totalday: totalday >= 1 ? totalday : 1
+    });
+
   };
-  
+
   const setenddate = (d: Date) => {
-   
-      const totalday = gettotalday(purchaseorrentdetails.startdate, d);
-      setpurchaseorrentdetails({
-        ...purchaseorrentdetails,
-        enddate: d,
-        totalday: totalday >= 1 ? totalday : 1
-      });
-    
+
+    const totalday = gettotalday(purchaseorrentdetails.startdate, d);
+    setpurchaseorrentdetails({
+      ...purchaseorrentdetails,
+      enddate: d,
+      totalday: totalday >= 1 ? totalday : 1
+    });
+
   };
 
   const togglecheckavl = async () => {
 
 
     try {
-   
+
 
       const response = await axios.post("/api/Carsoperations/CheckAvl", {
         carid: data.id, RentorSell: data.RentorSell, startdate: purchaseorrentdetails.startdate, enddate: purchaseorrentdetails.enddate
@@ -153,8 +153,8 @@ const Carinfo: React.FC<Props> = ({ data, }) => {
       });
     }
   }
-   console.log(currentUser);
-   
+  console.log(currentUser);
+
   const togglepopmodal = useCallback(
     () => {
 
@@ -172,32 +172,32 @@ const Carinfo: React.FC<Props> = ({ data, }) => {
   )
 
 
-  const checkouthandler = 
+  const checkouthandler =
     async () => {
       try {
         const { data: { key } } = await axios.get("http://localhost:3000/api/getkey")
         const totalPrice = data.RentorSell === "Rent"
-        ? Math.floor((Number(data.price) * purchaseorrentdetails.totalday) * 0.5)
-        : Math.floor(Number(data.price) * 0.005);
+          ? Math.floor((Number(data.price) * purchaseorrentdetails.totalday) * 0.5)
+          : Math.floor(Number(data.price) * 0.005);
 
         const { data: { order } } = await axios.post("http://localhost:3000/api/checkout", {
           amount: totalPrice
         })
 
         const callbackUrl = "http://localhost:3000/api/paymentverification";
-        let queryParams = ( data.RentorSell==="Rent"? new URLSearchParams({
+        let queryParams = (data.RentorSell === "Rent" ? new URLSearchParams({
           price: totalPrice.toString(),
           userId: currentUser?.id.toString(),
           carModalId: data.id.toString(),
           Mode: data.RentorSell,
           startdate: data.RentorSell === "Rent" ? formatDate(purchaseorrentdetails.startdate) : "",
           enddate: data.RentorSell === "Rent" ? formatDate(purchaseorrentdetails.enddate) : ""
-        }): new URLSearchParams({
+        }) : new URLSearchParams({
           price: totalPrice.toString(),
           userId: currentUser?.id.toString(),
           carModalId: data.id.toString(),
           Mode: data.RentorSell,
-        
+
         }))
 
         const urlWithParams = `${callbackUrl}?${queryParams.toString()}`;
@@ -232,7 +232,7 @@ const Carinfo: React.FC<Props> = ({ data, }) => {
         togglepopmodal()
       }
     }
-    
+
 
 
 
@@ -330,7 +330,7 @@ const Carinfo: React.FC<Props> = ({ data, }) => {
               <div className='w-[90%] mx-auto'>
                 <div className='flex justify-between my-4 '>
                   <h1 className='text-neutral-500 text-base font-semibold'>Base Price</h1>
-                  <h1 className='text-black  text-base font-semibold'> <FaIndianRupeeSign className='inline' />{data.price} <sup className='text-neutral-400 text-sm'>{ data.RentorSell==="Rent"?'per Day':"Only"}</sup>  </h1>
+                  <h1 className='text-black  text-base font-semibold'> <FaIndianRupeeSign className='inline' />{data.price} <sup className='text-neutral-400 text-sm'>{data.RentorSell === "Rent" ? 'per Day' : "Only"}</sup>  </h1>
                 </div>
                 {data.RentorSell == "Rent" && <div className='flex justify-between my-4 '>
                   <h1 className='text-neutral-500 text-base font-semibold'> Price for {purchaseorrentdetails.totalday} days</h1>
@@ -428,9 +428,14 @@ export async function getServerSideProps(context: any) {
 
   // Fetch car data based on the query parameters
   const { Carinfo } = context.query;
-  const carRes = await fetch(`http://localhost:3000/api/Carinfo/${Carinfo}`);
-  const carData = await carRes.json();
+  let carData: any
+  try {
+    const carRes = await fetch(`http://localhost:3000/api/Carinfo/${Carinfo}`);
+    carData = await carRes.json();
+  } catch (error) {
+    console.log(error);
 
+  }
   return {
     props: {
       // currentUser: currentUserData, // Return resolved currentUser data
