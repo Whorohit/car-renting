@@ -35,7 +35,7 @@ const Carinfo: React.FC<Props> = () => {
   const { Carinfo } = router.query;
 
 
-  const {data}=usegetcarinfo(Carinfo as string)
+  const { data } = usegetcarinfo(Carinfo as string)
 
   const { data: currentUser } = useCurrentUser();
 
@@ -251,18 +251,18 @@ const Carinfo: React.FC<Props> = () => {
                 height={425} width={800} />
             </div>
             <div className='flex flex-col  gap-[1.6rem] md:gap-7'>
-              <Image src={data?.frontimg} alt='nexon.jpg' className={`rounded-md border-2   h-[2.5rem] md:h-[5rem]  ${data&& data?.frontimg == selectimg ? 'border-blue-300 opacity-100 ' : 'border-blue-100 opacity-50'} `} width={100} height={100} onClick={() => {
+              <Image src={data?.frontimg} alt='nexon.jpg' className={`rounded-md border-2   h-[2.5rem] md:h-[5rem]  ${data && data?.frontimg == selectimg ? 'border-blue-300 opacity-100 ' : 'border-blue-100 opacity-50'} `} width={100} height={100} onClick={() => {
                 toogleselectimg(data?.frontimg)
               }} />
-              <Image src={ data?.coverimg} alt='nexon.jpg' className={`rounded-md border-2  h-[2.5rem] md:h-[5rem]  ${ data&& data?.coverimg == selectimg ? 'border-blue-300 opacity-100 ' : 'border-blue-100 opacity-50'} `} width={100} height={100}
+              <Image src={data?.coverimg} alt='nexon.jpg' className={`rounded-md border-2  h-[2.5rem] md:h-[5rem]  ${data && data?.coverimg == selectimg ? 'border-blue-300 opacity-100 ' : 'border-blue-100 opacity-50'} `} width={100} height={100}
                 onClick={() => {
                   toogleselectimg(data?.coverimg)
                 }} />
-              <Image src={data?.backimg} alt='nexon.jpg' className={`rounded-md border-2       h-[2.5rem] md:h-[5rem]  ${data&& data?.backimg == selectimg ? 'border-blue-300 opacity-100 ' : 'border-blue-100 opacity-50'} `} width={100} height={100}
+              <Image src={data?.backimg} alt='nexon.jpg' className={`rounded-md border-2       h-[2.5rem] md:h-[5rem]  ${data && data?.backimg == selectimg ? 'border-blue-300 opacity-100 ' : 'border-blue-100 opacity-50'} `} width={100} height={100}
                 onClick={() => {
                   toogleselectimg(data?.backimg)
                 }} />
-              <Image src={data?.sideimg} alt='nexon.jpg' className={`rounded-md border-2   h-[2.5rem] md:h-[5rem]  ${data&& data?.sideimg == selectimg ? 'border-blue-300 opacity-100 ' : 'border-blue-100 opacity-50'}`} width={100} height={100}
+              <Image src={data?.sideimg} alt='nexon.jpg' className={`rounded-md border-2   h-[2.5rem] md:h-[5rem]  ${data && data?.sideimg == selectimg ? 'border-blue-300 opacity-100 ' : 'border-blue-100 opacity-50'}`} width={100} height={100}
                 onClick={() => {
                   toogleselectimg(data?.sideimg)
                 }} />
@@ -318,7 +318,7 @@ const Carinfo: React.FC<Props> = () => {
               </div>
 
 
-              {data&& data?.RentorSell === 'Rent' && <>
+              {data && data?.RentorSell === 'Rent' && <>
                 <div className='my-4'>
                   <h1 className='w-[90%] mx-auto  my-0 text-black font-bold outline-none    text-base  h-8 '>PickUp Date</h1>
                   <DatePickerDemo value={purchaseorrentdetails.startdate} setdate={setstartdate} startdate={purchaseorrentdetails.startdate} />
@@ -330,16 +330,16 @@ const Carinfo: React.FC<Props> = () => {
               <div className='w-[90%] mx-auto'>
                 <div className='flex justify-between my-4 '>
                   <h1 className='text-neutral-500 text-base font-semibold'>Base Price</h1>
-                  <h1 className='text-black  text-base font-semibold'> <FaIndianRupeeSign className='inline' />{ data&& data?.price ?data.price:"0"} <sup className='text-neutral-400 text-sm'>{data&&  data?.RentorSell === "Rent" ? 'per Day' : "Only"}</sup>  </h1>
+                  <h1 className='text-black  text-base font-semibold'> <FaIndianRupeeSign className='inline' />{data && data?.price ? data.price : "0"} <sup className='text-neutral-400 text-sm'>{data && data?.RentorSell === "Rent" ? 'per Day' : "Only"}</sup>  </h1>
                 </div>
-                { data&& data?.RentorSell == "Rent" && <div className='flex justify-between my-4 '>
+                {data && data?.RentorSell == "Rent" && <div className='flex justify-between my-4 '>
                   <h1 className='text-neutral-500 text-base font-semibold'> Price for {purchaseorrentdetails.totalday} days</h1>
                   <h1 className='text-black  text-base font-semibold mr-14'> <MdSell color='blue' className='inline' /><FaIndianRupeeSign className='inline' /> {data?.price * purchaseorrentdetails.totalday}</h1>
                 </div>}
               </div>
               <div className='w-[90%] mx-auto'>
                 <button className='bg-transparent font-bold my-2  border-blue-200 hover:scale-90 hover:bg-blue-300 hover:text-black cursor-pointer  border-2 px-3   py-1 rounded-xl w-[90%] ml-5 mr-auto ' onClick={togglecheckavl} >Check Availability</button>
-                {isavailable === true && <button className='bg-transparent font-bold  border-blue-200 hover:scale-90 hover:bg-blue-300 hover:text-black cursor-pointer  border-2 px-3 my-2   py-1 rounded-xl w-[90%] ml-5 mr-auto ' onClick={togglepopmodal}  >{ data&& data?.
+                {isavailable === true && <button className='bg-transparent font-bold  border-blue-200 hover:scale-90 hover:bg-blue-300 hover:text-black cursor-pointer  border-2 px-3 my-2   py-1 rounded-xl w-[90%] ml-5 mr-auto ' onClick={togglepopmodal}  >{data && data?.
                   RentorSell == "Rent" ? "Book Now" : "Pay Advance"}</button>}
               </div>
             </div>)
@@ -350,29 +350,29 @@ const Carinfo: React.FC<Props> = () => {
 
 
         <div className=' w-[80% ] rounded-md  bg-neutral-50 shadow-md lg:w-[62%] lg:ml-20  mt-5 lg:-mt-32 p-2 '>
-          <h1 className=' font-bold text-base  md:text-xl flex  justify-start items-center gap-3 w-[90%] mx-auto text-left  border-b-[1px] border-b-gray-200 py-3 '>{ data && data?.brand.brandname?data?.brand.brandname :""}  { data&& data?.Modal?data?.Modal:""} <span>{ data && data.verifed ? <MdVerified size={20} color={` blue `} /> : <MdOutlineVerified color={'grey'} size={20} />}</span> <span className='text-gray-400 text-sm'>{data?.verifed ? " verifed" : "Not verifed"} </span></h1>
+          <h1 className=' font-bold text-base  md:text-xl flex  justify-start items-center gap-3 w-[90%] mx-auto text-left  border-b-[1px] border-b-gray-200 py-3 '>{data && data?.brand.brandname ? data?.brand.brandname : ""}  {data && data?.Modal ? data?.Modal : ""} <span>{data && data.verifed ? <MdVerified size={20} color={` blue `} /> : <MdOutlineVerified color={'grey'} size={20} />}</span> <span className='text-gray-400 text-sm'>{data?.verifed ? " verifed" : "Not verifed"} </span></h1>
           <div className='border-b-[1px] border-b-gray-200 w-[90%] mx-auto pb-5 '>
 
             <h1 className=' flex justify-between items-center  my-2  mx-auto  text-left  font-semibold text-base md:text-lg text-neutral-600  tracking-tight'>Overview <CiCircleMinus size={20} /></h1>
             <div className='flex-col flex justify-between p-2 gap-4  mx-auto'>
 
               <div className='flex justify-between gap-10  '>
-                <h1 className='basis-1/2 flex justify-between gap-10 text-neutral-800 font-bold text-sm md:text-base capitalize ' >Engine <span className='font-semibold text-neutral-500 text-sm'>{data?.engine}</span> </h1>
-                <h1 className='basis-1/2 flex justify-between gap-10 text-neutral-800 font-bold text-sm md:text-base capitalize' >Year<span className='font-semibold text-neutral-500 text-sm'>{data?.year}</span> </h1>
+                <h1 className='basis-1/2 flex justify-between gap-10 text-neutral-800 font-bold text-sm md:text-base capitalize ' >Engine <span className='font-semibold text-neutral-500 text-sm'>{data && data?.engine ? data?.engine : ""}</span> </h1>
+                <h1 className='basis-1/2 flex justify-between gap-10 text-neutral-800 font-bold text-sm md:text-base capitalize' >Year<span className='font-semibold text-neutral-500 text-sm'>{data && data?.year ? data.year : ""}</span> </h1>
               </div>
               <div className='flex justify-between gap-10  '>
-                <h1 className='basis-1/2 flex justify-between gap-10 text-neutral-800 font-bold text-sm md:text-base capitalize ' >Sub-Modal <span className='font-semibold text-neutral-500 text-sm'>{data?.submodal}</span> </h1>
-                <h1 className='basis-1/2 flex justify-between gap-10 text-neutral-800 font-bold text-sm md:text-base capitalize' >Mileage<span className='font-semibold text-neutral-500 text-sm'>{data?.mileage}</span> </h1>
+                <h1 className='basis-1/2 flex justify-between gap-10 text-neutral-800 font-bold text-sm md:text-base capitalize ' >Sub-Modal <span className='font-semibold text-neutral-500 text-sm'>{data && data?.submodal ? data.submodal : ""}</span> </h1>
+                <h1 className='basis-1/2 flex justify-between gap-10 text-neutral-800 font-bold text-sm md:text-base capitalize' >Mileage<span className='font-semibold text-neutral-500 text-sm'>{data && data?.mileage ? data?.mileage : ""}</span> </h1>
               </div>
               <div className='flex justify-between gap-10  '>
                 <h1 className='basis-1/2 flex justify-between gap-10 text-neutral-800 font-bold text-sm md:text-base capitalize' >Drivetrain
-                  <span className='font-semibold text-neutral-500 text-sm'>{data?.drivetrain}</span> </h1>
-                <h1 className='basis-1/2 flex justify-between gap-10 text-neutral-800 font-bold text-sm md:text-base capitalize ' >Driven <span className='font-semibold text-neutral-500 text-sm'>{data?.driven} Kms</span> </h1>
+                  <span className='font-semibold text-neutral-500 text-sm'>{data&&data?.drivetrain?data?.drivetrain:""}</span> </h1>
+                <h1 className='basis-1/2 flex justify-between gap-10 text-neutral-800 font-bold text-sm md:text-base capitalize ' >Driven <span className='font-semibold text-neutral-500 text-sm'>{ data &&data?.driven?data?.driven:""} Kms</span> </h1>
               </div>
               <div className='flex justify-between gap-10  '>
-                <h1 className='basis-1/2 flex justify-between gap-10 text-neutral-800 font-bold text-sm md:text-base capitalize' >Fuel <span className='font-semibold text-neutral-500 text-sm'>{data?.fuel}</span> </h1>
-                <h1 className='basis-1/2 flex justify-between gap-10 text-neutral-800 font-bold text-sm md:text-base capitalize ' >Transmission <span className='font-semibold text-neutral-500 text-sm'>{data?.
-                  transmission
+                <h1 className='basis-1/2 flex justify-between gap-10 text-neutral-800 font-bold text-sm md:text-base capitalize' >Fuel <span className='font-semibold text-neutral-500 text-sm'>{data&& data?.fuel?data?.fuel:""}</span> </h1>
+                <h1 className='basis-1/2 flex justify-between gap-10 text-neutral-800 font-bold text-sm md:text-base capitalize ' >Transmission <span className='font-semibold text-neutral-500 text-sm'>{data&&data?.
+                  transmission?data.transmission:""
                 }</span> </h1>
               </div>
               <div className='flex justify-between gap-10  '>
@@ -397,7 +397,7 @@ const Carinfo: React.FC<Props> = () => {
               <h1 className='basis-1/2 flex justify-between gap-10 ' >Engine <span>1.litre</span> </h1>
               <h1 className='basis-1/2 flex justify-between gap-10 '>Engine <span>1.litre</span> </h1>
             </div> */}
-              {data.des}
+              {data?.des}
             </div>
           </div>
         </div>
