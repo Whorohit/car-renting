@@ -49,7 +49,7 @@ const Carinfo: React.FC<Props> = () => {
   const [user, setuser] = useState(false)
   const { data: Brand } = brandname()
   const [isavailable, setisavailable] = useState(null)
-  const [selectimg, setselectimg] = useState(data?.coverimg)
+  const [selectimg, setselectimg] = useState(data&&data.coverimg?data.coverimg:"")
   const [purchaseorrentdetails, setpurchaseorrentdetails] = useState(
     {
       startdate: new Date() || null,
@@ -59,7 +59,11 @@ const Carinfo: React.FC<Props> = () => {
       totalday: 1
     }
   )
-  console.log(data, "ggg");
+  useEffect(() => {
+    if (data && data.coverimg) {
+      setselectimg(data.coverimg);
+    }
+  }, [data]);
 
   const gettotalday = (start: Date, end: Date) => {
     const startUTC = Date.UTC(start.getFullYear(), start.getMonth(), start.getDate());
