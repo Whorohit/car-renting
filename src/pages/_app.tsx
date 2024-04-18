@@ -12,6 +12,7 @@ import Userinfodata from "@/components/useinfomoblieview";
 import Popup from "@/components/Popup";
 import Editpassword from "@/components/Modal/Editpassword";
 import FilterBoard from "@/components/FilterBoard";
+import { ErrorBoundary } from "next/dist/client/components/error-boundary";
 
 const inter = Inter({ subsets: ['latin'] })
 
@@ -21,15 +22,17 @@ export default function App({ Component, pageProps }: AppProps) {
   return <SessionProvider session={pageProps.session}>
     <Provider store={store}>
       <main className="font-sans relative" >
-        <Userinfodata />
-        <Editpassword />
-        <FilterBoard/>
-        <SignUp />
-        <Login />
-        <Sidenavbar />
-        <Navbar />
-        <Userinfodata />
-        <Component {...pageProps} />
+        <ErrorBoundary errorComponent={<div>Error occurred</div>}> {/* Place the ErrorBoundary component here */}
+          <Userinfodata />
+          <Editpassword />
+          <FilterBoard />
+          <SignUp />
+          <Login />
+          <Sidenavbar />
+          <Navbar />
+          <Userinfodata />
+          <Component {...pageProps} />
+        </ErrorBoundary>
       </main>
     </Provider>
   </SessionProvider >
