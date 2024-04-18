@@ -350,7 +350,7 @@ const Carinfo: React.FC<Props> = () => {
 
 
         <div className=' w-[80% ] rounded-md  bg-neutral-50 shadow-md lg:w-[62%] lg:ml-20  mt-5 lg:-mt-32 p-2 '>
-          <h1 className=' font-bold text-base  md:text-xl flex  justify-start items-center gap-3 w-[90%] mx-auto text-left  border-b-[1px] border-b-gray-200 py-3 '>{ data && data?.brand.brandname?data?.brand.brandname :""}  { data&& data?.Modal?data?.Modal:""} <span>{data.verifed ? <MdVerified size={20} color={` blue `} /> : <MdOutlineVerified color={'grey'} size={20} />}</span> <span className='text-gray-400 text-sm'>{data?.verifed ? " verifed" : "Not verifed"} </span></h1>
+          <h1 className=' font-bold text-base  md:text-xl flex  justify-start items-center gap-3 w-[90%] mx-auto text-left  border-b-[1px] border-b-gray-200 py-3 '>{ data && data?.brand.brandname?data?.brand.brandname :""}  { data&& data?.Modal?data?.Modal:""} <span>{ data && data.verifed ? <MdVerified size={20} color={` blue `} /> : <MdOutlineVerified color={'grey'} size={20} />}</span> <span className='text-gray-400 text-sm'>{data?.verifed ? " verifed" : "Not verifed"} </span></h1>
           <div className='border-b-[1px] border-b-gray-200 w-[90%] mx-auto pb-5 '>
 
             <h1 className=' flex justify-between items-center  my-2  mx-auto  text-left  font-semibold text-base md:text-lg text-neutral-600  tracking-tight'>Overview <CiCircleMinus size={20} /></h1>
