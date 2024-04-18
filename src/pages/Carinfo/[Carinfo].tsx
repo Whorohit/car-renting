@@ -49,7 +49,7 @@ const Carinfo: React.FC<Props> = ({ data }) => {
   const [user, setuser] = useState(false)
   const { data: Brand } = brandname()
   const [isavailable, setisavailable] = useState(null)
-  const [selectimg, setselectimg] = useState(data.coverimg)
+  const [selectimg, setselectimg] = useState(data?.coverimg)
   const [purchaseorrentdetails, setpurchaseorrentdetails] = useState(
     {
       startdate: new Date() || null,
@@ -251,20 +251,20 @@ const Carinfo: React.FC<Props> = ({ data }) => {
                 height={425} width={800} />
             </div>
             <div className='flex flex-col  gap-[1.6rem] md:gap-7'>
-              <Image src={data.frontimg} alt='nexon.jpg' className={`rounded-md border-2   h-[2.5rem] md:h-[5rem]  ${data.frontimg == selectimg ? 'border-blue-300 opacity-100 ' : 'border-blue-100 opacity-50'} `} width={100} height={100} onClick={() => {
-                toogleselectimg(data.frontimg)
+              <Image src={data?.frontimg} alt='nexon.jpg' className={`rounded-md border-2   h-[2.5rem] md:h-[5rem]  ${data.frontimg == selectimg ? 'border-blue-300 opacity-100 ' : 'border-blue-100 opacity-50'} `} width={100} height={100} onClick={() => {
+                toogleselectimg(data?.frontimg)
               }} />
-              <Image src={data.coverimg} alt='nexon.jpg' className={`rounded-md border-2  h-[2.5rem] md:h-[5rem]  ${data.coverimg == selectimg ? 'border-blue-300 opacity-100 ' : 'border-blue-100 opacity-50'} `} width={100} height={100}
+              <Image src={data?.coverimg} alt='nexon.jpg' className={`rounded-md border-2  h-[2.5rem] md:h-[5rem]  ${data.coverimg == selectimg ? 'border-blue-300 opacity-100 ' : 'border-blue-100 opacity-50'} `} width={100} height={100}
                 onClick={() => {
-                  toogleselectimg(data.coverimg)
+                  toogleselectimg(data?.coverimg)
                 }} />
-              <Image src={data.backimg} alt='nexon.jpg' className={`rounded-md border-2       h-[2.5rem] md:h-[5rem]  ${data.backimg == selectimg ? 'border-blue-300 opacity-100 ' : 'border-blue-100 opacity-50'} `} width={100} height={100}
+              <Image src={data?.backimg} alt='nexon.jpg' className={`rounded-md border-2       h-[2.5rem] md:h-[5rem]  ${data.backimg == selectimg ? 'border-blue-300 opacity-100 ' : 'border-blue-100 opacity-50'} `} width={100} height={100}
                 onClick={() => {
-                  toogleselectimg(data.backimg)
+                  toogleselectimg(data?.backimg)
                 }} />
-              <Image src={data.sideimg} alt='nexon.jpg' className={`rounded-md border-2   h-[2.5rem] md:h-[5rem]  ${data.sideimg == selectimg ? 'border-blue-300 opacity-100 ' : 'border-blue-100 opacity-50'}`} width={100} height={100}
+              <Image src={data?.sideimg} alt='nexon.jpg' className={`rounded-md border-2   h-[2.5rem] md:h-[5rem]  ${data.sideimg == selectimg ? 'border-blue-300 opacity-100 ' : 'border-blue-100 opacity-50'}`} width={100} height={100}
                 onClick={() => {
-                  toogleselectimg(data.sideimg)
+                  toogleselectimg(data?.sideimg)
                 }} />
 
             </div>
