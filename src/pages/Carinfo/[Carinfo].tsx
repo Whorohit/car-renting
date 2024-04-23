@@ -33,8 +33,8 @@ const Carinfo: React.FC<Props> = () => {
 
   const router = useRouter();
   const { Carinfo } = router.query;
-   const [toggledes, settoggledes] = useState(false)
-   const [toggleoverview, settoggleoverview] = useState(false)
+  const [toggledes, settoggledes] = useState(false)
+  const [toggleoverview, settoggleoverview] = useState(false)
 
   const { data } = usegetcarinfo(Carinfo as string)
 
@@ -50,7 +50,7 @@ const Carinfo: React.FC<Props> = () => {
   const [user, setuser] = useState(false)
   const { data: Brand } = brandname()
   const [isavailable, setisavailable] = useState(null)
-  const [selectimg, setselectimg] = useState(data&&data.coverimg?data.coverimg:"")
+  const [selectimg, setselectimg] = useState(data && data.coverimg ? data.coverimg : "")
   const [purchaseorrentdetails, setpurchaseorrentdetails] = useState(
     {
       startdate: new Date() || null,
@@ -274,7 +274,7 @@ const Carinfo: React.FC<Props> = () => {
 
             </div>
           </div>
-          {currentUser && currentUser?.id ===  data?.userid ?
+          {currentUser && currentUser?.id === data?.userid ?
             (<div className='basis-[30%] rounded-md  border-2 border-gray-200 p-2'>
               <h1 className='my-2  w-[80%] mx-auto text-start font-semibold text-2xl tracking-wide  '>Booking Information </h1>
               <h1 className='py-2 px-1 text-neutral-600 bg-blue-200 text-center text-sm  rounded-md  my-5  w-[80%] mx-auto'>
@@ -358,10 +358,10 @@ const Carinfo: React.FC<Props> = () => {
           <h1 className=' font-bold text-base  md:text-xl flex  justify-start items-center gap-3 w-[90%] mx-auto text-left  border-b-[1px] border-b-gray-200 py-3 '>{data && data?.brand.brandname ? data?.brand.brandname : ""}  {data && data?.Modal ? data?.Modal : ""} <span>{data && data.verifed ? <MdVerified size={20} color={` blue `} /> : <MdOutlineVerified color={'grey'} size={20} />}</span> <span className='text-gray-400 text-sm'>{data?.verifed ? " verifed" : "Not verifed"} </span></h1>
           <div className='border-b-[1px] border-b-gray-200  min-h-[5rem]  w-[90%] mx-auto pb-5 '>
 
-            <h1 className=' flex justify-between items-center   my-2  mx-auto  text-left  font-semibold text-base md:text-lg text-neutral-600  tracking-tight'>Overview <CiCircleMinus size={20} onClick={()=>{
-               settoggleoverview(!toggleoverview)
+            <h1 className=' flex justify-between items-center   my-2  mx-auto  text-left  font-semibold text-base md:text-lg text-neutral-600  tracking-tight'>Overview <CiCircleMinus size={20} onClick={() => {
+              settoggleoverview(!toggleoverview)
             }} /></h1>
-            <div className={` flex-col flex justify-between px-2 gap-4  transition-transform  mx-auto overflow-hidden  ${toggleoverview ?"min-h-64 ":"max-h-0 "}`} >
+            <div className={` flex-col flex justify-between px-2 gap-4  transition-transform  mx-auto overflow-hidden  ${toggleoverview ? "min-h-64 " : "max-h-0 "}`} >
 
               <div className='flex justify-between gap-10  '>
                 <h1 className='basis-1/2 flex justify-between gap-10 text-neutral-800 font-bold text-sm md:text-base capitalize ' >Engine <span className='font-semibold text-neutral-500 text-sm'>{data && data?.engine ? data?.engine : ""}</span> </h1>
@@ -373,13 +373,13 @@ const Carinfo: React.FC<Props> = () => {
               </div>
               <div className='flex justify-between gap-10  '>
                 <h1 className='basis-1/2 flex justify-between gap-10 text-neutral-800 font-bold text-sm md:text-base capitalize' >Drivetrain
-                  <span className='font-semibold text-neutral-500 text-sm'>{data&&data?.drivetrain?data?.drivetrain:""}</span> </h1>
-                <h1 className='basis-1/2 flex justify-between gap-10 text-neutral-800 font-bold text-sm md:text-base capitalize ' >Driven <span className='font-semibold text-neutral-500 text-sm'>{ data &&data?.driven?data?.driven:""} Kms</span> </h1>
+                  <span className='font-semibold text-neutral-500 text-sm'>{data && data?.drivetrain ? data?.drivetrain : ""}</span> </h1>
+                <h1 className='basis-1/2 flex justify-between gap-10 text-neutral-800 font-bold text-sm md:text-base capitalize ' >Driven <span className='font-semibold text-neutral-500 text-sm'>{data && data?.driven ? data?.driven : ""} Kms</span> </h1>
               </div>
               <div className='flex justify-between gap-10  '>
-                <h1 className='basis-1/2 flex justify-between gap-10 text-neutral-800 font-bold text-sm md:text-base capitalize' >Fuel <span className='font-semibold text-neutral-500 text-sm'>{data&& data?.fuel?data?.fuel:""}</span> </h1>
-                <h1 className='basis-1/2 flex justify-between gap-10 text-neutral-800 font-bold text-sm md:text-base capitalize ' >Transmission <span className='font-semibold text-neutral-500 text-sm'>{data&&data?.
-                  transmission?data.transmission:""
+                <h1 className='basis-1/2 flex justify-between gap-10 text-neutral-800 font-bold text-sm md:text-base capitalize' >Fuel <span className='font-semibold text-neutral-500 text-sm'>{data && data?.fuel ? data?.fuel : ""}</span> </h1>
+                <h1 className='basis-1/2 flex justify-between gap-10 text-neutral-800 font-bold text-sm md:text-base capitalize ' >Transmission <span className='font-semibold text-neutral-500 text-sm'>{data && data?.
+                  transmission ? data.transmission : ""
                 }</span> </h1>
               </div>
               <div className='flex justify-between gap-10  '>

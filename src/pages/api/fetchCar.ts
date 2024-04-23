@@ -17,7 +17,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
 
     else {
         
-        console.log(pagenumber);
+       
         let take = 10; // Default number of items per page
         let skip = 0; // Number of items to skip
 

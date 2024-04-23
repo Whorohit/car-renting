@@ -18,6 +18,7 @@ const News: React.FC = () => {
         dataLength={news?.length}
         next={() => setSize(size + 1)}
         hasmore={news?.length<=100}
+        className=' w-1/5 flex flex-col justify-start items-center gap-5 '
       >
         {news?.map((item: Record<string, any>) => (
           <Newscard data={item} key={item.id} />

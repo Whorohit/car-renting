@@ -46,7 +46,7 @@ function Fuel({}:Props) {
             dataLength={cars?.length}
             next={() => setSize(size + 1)}
             hasmore={cars?.length + 1 < totalcount}
-            className='w-[100%] flex flex-col justify-start items-center gap-5 '
+            // className='w-[100%] flex flex-col justify-start items-center gap-5 '
           >
             {cars?.map((car: Record<string, any>) => (
               <Carcard data={car} />

@@ -10,37 +10,65 @@ import Fuel from '../../public/Fuel.json';
 import trans from '../../public/Transmission.json';
 import item from '../../public/category.json'
 import Filter from "@/components/filter";
-import { useState } from "react";
+import { useCallback, useState } from "react";
 import { brandname, } from "../../hooks/brandname";
-import axios from "axios";
+
 // import { AutoComplete } from 'antd';
+import { AutoComplete } from 'rsuite';
+import Autocompleted from "@/components/Autocompleted";
+import { usegetunique } from "../../hooks/usegetuniquename";
+import { useRouter } from "next/router";
+
+
+
+
 export default function Home({} ) {
-  
+   const router=useRouter();
   const [type, settype] = useState('Body')
   const {data:brand} =   brandname(); 
-  
-  const options = [
-    { value: 'Burns Bay Road' },
-    { value: 'Downing Street' },
-    { value: 'Wall Street' },
+  const data = [
+    'Eugenia',
+    'Bryan',
+    'Linda',
+    'Nancy',
+    'Lloyd',
+    'Alice',
+    'Julia',
+    'Albert',
+    'Louisa',
+    'Lester',
+    'Lola',
+    'Lydia',
+    'Hal',
+    'Hannah',
+    'Harriet',
+    'Hattie',
+    'Hazel',
+    'Hilda'
   ];
+   const [value, setValue] = useState('')
+ const {data:getunique}=usegetunique()
+  const togglesearch=useCallback(
+    () => {
+        router.push(`/SearchCar/${value}`)
+    },
+    [router,value],
+  )
+  
+  
+  
+  
   return (
     <div className="mt-20  pb-5">
       <Hero />
-      <form className="flex justify-between items-center m-12 p-1 w-3/4 md:w-1/3   rounded-2xl mx-auto  bg-blue-100">
-        {/* <Input placeholder="Car" style="w-1/2 py-1 px-1 rounded-none " />
-        <button type="submit" className="p-1.5 opacity-70 bg-white rounded-full">
-          <FaSearch size={20} color="blue" />
-        </button> */}
-        {/* <AutoComplete
-     className="w-full bg-transparent  "
-    options={options}
-    placeholder="try to type `b`"
-    filterOption={(inputValue, option) =>
-      option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
-    }
-  /> */}
-      </form>
+      <div className=" m-12  w-3/4 md:w-1/3   rounded-2xl mx-auto relative  bg-blue-100">
+        {/* <Input placeholder="Car" style="w-1/2 py-1 px-1 rounded-none " />*/}
+        <button type="submit" disabled={value.length===0} onClick={togglesearch} className="p-1.5 opacity-70 bg-transparent hover:scale-90   rounded-full absolute  top-0 right-0">
+          <FaSearch size={20}  className=" text-blue-600 hover:text-blue-300" />
+        </button> 
+      
+      <Autocompleted data={getunique} value={value} setValue={setValue}/>
+      </div>
       <h1 className='mt-10 text-base  tracking-widest md:text-xl text-start  font-bold  w-[90%] mx-auto'>All Brand</h1>
       <CarTypeoption data={brand} ID={true}  view={true} type="Brand"/>
      <Filter data={['Body','Fuel','Transmission']} type={type} settype={settype}/>  
@@ -62,4 +90,5 @@ export default function Home({} ) {
    
 //   }
 // }
+
   

@@ -24,7 +24,7 @@ const InfinteSrcoll: React.FC<Props> = ({ data=[], next, hasmore
         <InfiniteScroll
             dataLength={dataLength}
             next={next}
-            style={{ width: "200%", display: 'flex', flexDirection: 'column',justifyContent:"center",alignItems:"center",gap:"1rem" }} //To put endMessage and loader to the top.
+            style={{ width: `${className?"100%":"200%"}`, display: 'flex', flexDirection: 'column',justifyContent:"center",alignItems:"center",gap:"1rem" }} //To put endMessage and loader to the top.
             //
 
             endMessage={
@@ -34,7 +34,7 @@ const InfinteSrcoll: React.FC<Props> = ({ data=[], next, hasmore
             }
             className={className?className:""}
             hasMore={hasMore}
-            loader={<h1 className='text-center'>
+            loader={<h1 className='text-center flex justify-center '>
                 <Spinner/>
             </h1>}
             scrollableTarget="scrollableDiv"
