@@ -61,7 +61,7 @@ const CarTypeoption: React.FC<CartypeProps> = ({  data = [], view,type,ID=false 
       opts={{
         align: "start",
       }}
-      className="w-full  mt-5"
+      className=" w-[80%] mx-auto md:w-full  mt-5"
     >
       <CarouselContent>
         {data.map(( index) => (

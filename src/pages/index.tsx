@@ -13,20 +13,33 @@ import Filter from "@/components/filter";
 import { useState } from "react";
 import { brandname, } from "../../hooks/brandname";
 import axios from "axios";
-
+// import { AutoComplete } from 'antd';
 export default function Home({} ) {
   
   const [type, settype] = useState('Body')
   const {data:brand} =   brandname(); 
   
+  const options = [
+    { value: 'Burns Bay Road' },
+    { value: 'Downing Street' },
+    { value: 'Wall Street' },
+  ];
   return (
-    <div className="mt-20 ">
+    <div className="mt-20  pb-5">
       <Hero />
       <form className="flex justify-between items-center m-12 p-1 w-3/4 md:w-1/3   rounded-2xl mx-auto  bg-blue-100">
-        <Input placeholder="Car" style="w-1/2 py-1 px-1 rounded-none " />
+        {/* <Input placeholder="Car" style="w-1/2 py-1 px-1 rounded-none " />
         <button type="submit" className="p-1.5 opacity-70 bg-white rounded-full">
           <FaSearch size={20} color="blue" />
-        </button>
+        </button> */}
+        {/* <AutoComplete
+     className="w-full bg-transparent  "
+    options={options}
+    placeholder="try to type `b`"
+    filterOption={(inputValue, option) =>
+      option!.value.toUpperCase().indexOf(inputValue.toUpperCase()) !== -1
+    }
+  /> */}
       </form>
       <h1 className='mt-10 text-base  tracking-widest md:text-xl text-start  font-bold  w-[90%] mx-auto'>All Brand</h1>
       <CarTypeoption data={brand} ID={true}  view={true} type="Brand"/>
@@ -34,7 +47,7 @@ export default function Home({} ) {
     {type==='Body'&&  <CarTypeoption data={item} view={false} type="Body"  />}
     {type==='Fuel'&&  <CarTypeoption data={Fuel} view={false} type="Fuel"/>}
     {type==='Transmission'&&  <CarTypeoption data={trans} view={false} type="Transmission"/>}
-    </div>
+    </div >
   );
 }
 // export async function getServerSideProps() {

@@ -12,10 +12,14 @@ const Hero = () => {
     return (
         <>
         <div className=" w-full flex  flex-col justify-between  gap-y-28 mx-auto mt-12  items-center  ">
-            <div className=" w-[70%] md:w-full  flex justify-center items-start relative">
+            <div className=" w-[80%]  md:w-full  flex justify-center items-start relative">
 
              
-             <Image src="/hero.png" alt="hero" quality={100} width={500} height={500}  className=" duration-300 transition-all animateOnce "
+             <Image src="/hero.png" alt="hero" quality={100} width={500} height={500}  className=" duration-300 transition-all animateOnce hidden md:block "
+          
+             
+              />
+             <Image src="/hero.png" alt="hero" quality={100} width={1000} height={1000}  className=" duration-300 transition-all animateOnce md:hidden h-full "
           
              
               />
