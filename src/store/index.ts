@@ -34,16 +34,18 @@ interface Filter{
  Category:string[];
  Fuel:string[];
  Budget:number[];
+ Transmission:string[]
  sort:string
 
 
 }
 const filter:Filter={
   isOpen:false,
-  Brand:[],
-  Category:[],
- Fuel:[],
+  Brand:["Tata","Mahindra","Hynadia","Honda","Audi"],
+  Category:["Suv","Sedan"],
+ Fuel:["Petrol","Diesel"],
  Budget:[],
+ Transmission:["Manul"],
  sort:"des"
 
 }
@@ -100,22 +102,18 @@ const EditPasswordModalslice = createSlice({
 
 // extra reducer for carfilter 
 
-export const setBrandKey = createAsyncThunk<
-  string[],
-  { item: string },
-  { state: { Filter: Filter } }
->(
-  'filter/Brand',
-  async ({ item }, thunkAPI) => {
+export const setBrandKey = createAsyncThunk(
+  'Filter/Brand',
+  async ({ brandItem }: { brandItem: string }, thunkAPI) => {
     try {
-      const currentState = thunkAPI.getState();
+      const currentState: any = thunkAPI.getState();
       const updatedTab = [...currentState.Filter.Brand];
 
-      const index = updatedTab.indexOf(item);
+      const index = updatedTab.indexOf(brandItem);
       if (index !== -1) {
         updatedTab.splice(index, 1);
       } else {
-        updatedTab.push(item);
+        updatedTab.push(brandItem);
       }
 
       console.log(updatedTab);
@@ -126,11 +124,7 @@ export const setBrandKey = createAsyncThunk<
     }
   }
 );
-export const setCategoryKey = createAsyncThunk<
-  string[],
-  { item: string },
-  { state: { Filter: Filter } }
->(
+export const setCategoryKey = createAsyncThunk< string[],{ item: string },{ state: { Filter: Filter } }>(
   'filter/Category',
   async ({ item }, thunkAPI) => {
     try {
@@ -156,18 +150,18 @@ export const setCategoryKey = createAsyncThunk<
 const CarFilterModalslice = createSlice({
   name: "Filter",
   initialState:filter,
-  extraReducers:(builder)=>{
+  reducers: {
+    toggleFilterModal: (state) => {
+     state.isOpen = !state.isOpen; //; // Toggles the state between true and false
+    },
+  },
+  extraReducers: (builder) => {
     builder.addCase(setBrandKey.fulfilled, (state, action) => {
       state.Brand = action.payload;
     });
     builder.addCase(setCategoryKey.fulfilled, (state, action) => {
       state.Category = action.payload;
     });
-  },
-  reducers: {
-    toggleFilterModal: (state) => {
-     state.isOpen = !state.isOpen; //; // Toggles the state between true and false
-    },
   },
 })
 

@@ -10,7 +10,6 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             throw new Error('Invaild Id')
 
         }
-        console.log(CarsbyName);
         
         let take = 10; // Default number of items per page
         let skip = 0; // Number of items to skip
@@ -56,7 +55,7 @@ export default async function handler(req: NextApiRequest, res: NextApiResponse)
             price: car.price.toString(), // Convert BigInt to string
             driven: car.driven.toString() // Convert BigInt to string
         }));
-        console.log(serializedCars);
+       
         return res.status(200).json({ serializedCars, countCar });
 
 
