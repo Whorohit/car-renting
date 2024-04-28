@@ -8,13 +8,14 @@ import { MdCarRental } from 'react-icons/md'
 import { useCurrentUser } from '../../hooks/usecurrent';
 import { CiLogout } from "react-icons/ci";
 import { FaArrowRight } from "react-icons/fa6";
-import { toggleuserinfo } from '@/store';
+import { toggleEditPassowordModal, toggleuserinfo } from '@/store';
 import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
 interface Props {
     isOpen?: boolean
 }
 const Userinfodata: React.FC<Props> = ({ isOpen }) => {
-
+    const router=useRouter();
     const userinfo = getuserinfodata();
     const { data: currentuser } = useCurrentUser()
     const isuserinfonavbar = useSelector((state: any) => state.userinfonavbar.isOpen);
@@ -27,11 +28,19 @@ const Userinfodata: React.FC<Props> = ({ isOpen }) => {
         [dispatch, toggleuserinfo],
     )
 
+    const handleclose = useCallback(
+        () => {
+            console.log('heeo');
+  
+            dispatch(toggleEditPassowordModal())
+        },
+        [dispatch, toggleEditPassowordModal],
+    )
 
     if (isuserinfonavbar)
         return (
 
-            <aside className='fixed top-0  left-0 z-50  h-[1000rem] transition-transform  md:hidden w-[1000rem] bg-black bg-opacity-50  '>
+            <aside className='fixed top-0  left-0 z-[40]  h-[1000rem] transition-transform  md:hidden w-[1000rem] bg-black bg-opacity-50  '>
                 <div className=' h-full px-3 py-4 overflow-y-auto bg-neutral-100  w-64  min-h-screen    flex gap-4  tracking-wide      text-neutral-600 font-bold text-lg flex-col  '>
                     <div className='flex justify-end items-center'> <FaArrowLeft onClick={getuserinfomodal} className='text-right ' /></div>
                     <h1 className='text-center font-normal capitalize  mt-4 '>{currentuser.name}</h1>
@@ -40,11 +49,18 @@ const Userinfodata: React.FC<Props> = ({ isOpen }) => {
                     {userinfo?.map((item) => {
                         const IconComponent = item.icons; // 
                         return (
-                            <h1 className='text-base py-2 tracking-wide font-normal flex justify-start gap-3 '>
+                            <h1 className='text-base py-2 tracking-wide font-normal flex justify-start gap-3 '
+                            onClick={()=>{
+                                router.push(`/user/${item.href}`)
+                              }}>
                                 <IconComponent size={20} />
                                 {item.label}</h1>
                         )
                     })}
+                    <h1 className='text-base py-2 tracking-wide font-normal flex items-center justify-start gap-3 hover:underline '
+                        onClick=
+                        {handleclose}><RiLockPasswordLine size={20} />Change Password
+                    </h1>
                     <h1 className='text-base py-2 tracking-wide font-normal flex items-center justify-start gap-3 '><CiLogout size={20} /> LogOut
                     </h1>
                 </div>

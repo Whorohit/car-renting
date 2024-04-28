@@ -30,7 +30,7 @@ const Body = (props: Props) => {
 
 
   return (
-    <div className='mt-16    md:p-10 relative'>
+    <div className='mt-16    md:p-10 relative  '>
       <h1 className='w-[90%] mx-auto text-2xl font-bold capitalize tracking-wider text-neutral-800'>{Body}-Cars</h1>
       <h1 className='w-[90%]  mx-auto text-base font-normal capitalize  text-blue-500'>
         Are you planning Rent or buy a <span className='font-bold'>{Body}</span> car? Well, we know that  Brand ,bodystyle, Fuel,Transmission etc  is one of the most crucial things while buying a car and with so many options available out there, it gets really difficult to find a good car which suits your pocket. Hence, we have put together a complete list of best SUV cars.

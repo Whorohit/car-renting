@@ -24,29 +24,29 @@ interface ExtraState {
 interface ModalState {
   isOpen: boolean;
 }
-const initialState:ModalState = {
-  isOpen:false
+const initialState: ModalState = {
+  isOpen: false
 };
 
-interface Filter{
- isOpen:boolean;
- Brand:string[];
- Category:string[];
- Fuel:string[];
- Budget:number[];
- Transmission:string[]
- sort:string
+interface Filter {
+  isOpen: boolean;
+  Brand: string[];
+  Category: string[];
+  Fuel: string[];
+  Budget: number[];
+  Transmission: string[]
+  sort: string
 
 
 }
-const filter:Filter={
-  isOpen:false,
-  Brand:["Tata","Mahindra","Hynadia","Honda","Audi"],
-  Category:["Suv","Sedan"],
- Fuel:["Petrol","Diesel"],
- Budget:[],
- Transmission:["Manul"],
- sort:"des"
+const filter: Filter = {
+  isOpen: false,
+  Brand: [],
+  Category: [],
+  Fuel: [],
+  Budget: [0,2000000],
+  Transmission: [],
+  sort: "desc"
 
 }
 
@@ -55,7 +55,7 @@ const loginModalslice = createSlice({
   initialState,
   reducers: {
     toggleLoginModal: (state) => {
-     state.isOpen = !state.isOpen; // // Toggles the state between true and false
+      state.isOpen = !state.isOpen; // // Toggles the state between true and false
     },
   },
 })
@@ -64,7 +64,7 @@ const PopupModalslice = createSlice({
   initialState,
   reducers: {
     togglePopup: (state) => {
-     state.isOpen = !state.isOpen; // // Toggles the state between true and false
+      state.isOpen = !state.isOpen; // // Toggles the state between true and false
     },
   },
 })
@@ -73,9 +73,9 @@ const userinfoslice = createSlice({
   initialState,
   reducers: {
     toggleuserinfo: (state) => {
-    console.log(1233);
-    
-     state.isOpen = !state.isOpen; // // Toggles the state between true and false
+      console.log(1233);
+
+      state.isOpen = !state.isOpen; // // Toggles the state between true and false
     },
   },
 })
@@ -84,17 +84,17 @@ const SignUpModalslice = createSlice({
   initialState,
   reducers: {
     toggleSignUpModal: (state) => {
-     state.isOpen = !state.isOpen; //; // Toggles the state between true and false
+      state.isOpen = !state.isOpen; //; // Toggles the state between true and false
     },
   },
 })
 const EditPasswordModalslice = createSlice({
   name: "Editpassword",
   initialState,
-  
+
   reducers: {
     toggleEditPassowordModal: (state) => {
-     state.isOpen = !state.isOpen; //; // Toggles the state between true and false
+      state.isOpen = !state.isOpen; //; // Toggles the state between true and false
     },
   },
 })
@@ -102,67 +102,65 @@ const EditPasswordModalslice = createSlice({
 
 // extra reducer for carfilter 
 
-export const setBrandKey = createAsyncThunk(
-  'Filter/Brand',
-  async ({ brandItem }: { brandItem: string }, thunkAPI) => {
-    try {
-      const currentState: any = thunkAPI.getState();
-      const updatedTab = [...currentState.Filter.Brand];
 
-      const index = updatedTab.indexOf(brandItem);
-      if (index !== -1) {
-        updatedTab.splice(index, 1);
-      } else {
-        updatedTab.push(brandItem);
-      }
-
-      console.log(updatedTab);
-      return updatedTab;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  }
-);
-export const setCategoryKey = createAsyncThunk< string[],{ item: string },{ state: { Filter: Filter } }>(
-  'filter/Category',
-  async ({ item }, thunkAPI) => {
-    try {
-      const currentState = thunkAPI.getState();
-      const updatedTab = [...currentState.Filter.Category];
-
-      const index = updatedTab.indexOf(item);
-      if (index !== -1) {
-        updatedTab.splice(index, 1);
-      } else {
-        updatedTab.push(item);
-      }
-
-      console.log(updatedTab);
-      return updatedTab;
-    } catch (error) {
-      console.error(error);
-      throw error;
-    }
-  }
-);
 
 const CarFilterModalslice = createSlice({
   name: "Filter",
-  initialState:filter,
+  initialState: filter,
   reducers: {
     toggleFilterModal: (state) => {
-     state.isOpen = !state.isOpen; //; // Toggles the state between true and false
+      state.isOpen = !state.isOpen; //; // Toggles the state between true and false
+    },
+    updateFilterBrand: (state, action: PayloadAction<string>) => {
+      const index = state.Brand.indexOf(action.payload);
+      if (index === -1) {
+        state.Brand.push(action.payload); // Add value if it doesn't exist
+      } else {
+        state.Brand.splice(index, 1); // Remove value if it exists
+      }
+    },
+    updateFilterCategory: (state, action: PayloadAction<string>) => {
+      const index = state.Category.indexOf(action.payload);
+      if (index === -1) {
+        state.Category.push(action.payload); // Add value if it doesn't exist
+      } else {
+        state.Category.splice(index, 1); // Remove value if it exists
+      }
+    },
+    updateFilterFuel: (state, action: PayloadAction<string>) => {
+      const index = state.Fuel.indexOf(action.payload);
+      if (index === -1) {
+        state.Fuel.push(action.payload); // Add value if it doesn't exist
+      } else {
+        state.Fuel.splice(index, 1); // Remove value if it exists
+      }
+    },
+    updateFilterTransmission: (state, action: PayloadAction<string>) => {
+      const index = state.Transmission.indexOf(action.payload);
+      if (index === -1) {
+        state.Transmission.push(action.payload); // Add value if it doesn't exist
+      } else {
+        state.Transmission.splice(index, 1); // Remove value if it exists
+      }
+    },
+    ClearFilter: (state,) => {
+
+      state.Brand = [];
+      state.Category = [];
+      state.Budget = [0, 2000000];
+      state.Fuel = [];
+      state.Transmission = []; // Reset Budget to [0, 2000000]
+
+    },
+    updateBudgetFilter: (state,action:PayloadAction<number[]>) => {
+
+     
+      state.Budget = action.payload; 
+       // Reset Budget to [0, 2000000]
+
     },
   },
-  extraReducers: (builder) => {
-    builder.addCase(setBrandKey.fulfilled, (state, action) => {
-      state.Brand = action.payload;
-    });
-    builder.addCase(setCategoryKey.fulfilled, (state, action) => {
-      state.Category = action.payload;
-    });
-  },
+
 })
 
 
@@ -170,13 +168,13 @@ const CarFilterModalslice = createSlice({
 export const { toggleLoginModal } = loginModalslice.actions;
 export const { toggleSignUpModal } = SignUpModalslice.actions;
 export const { toggleuserinfo } = userinfoslice.actions;
-export const { togglePopup} = PopupModalslice.actions;
-export const { toggleEditPassowordModal} = EditPasswordModalslice.actions;
-export const {toggleFilterModal } =  CarFilterModalslice.actions;
+export const { togglePopup } = PopupModalslice.actions;
+export const { toggleEditPassowordModal } = EditPasswordModalslice.actions;
+export const { toggleFilterModal, updateFilterBrand,updateFilterCategory,updateFilterTransmission,updateFilterFuel,ClearFilter ,updateBudgetFilter} = CarFilterModalslice.actions;
 
 export const loginModalReducer = loginModalslice.reducer;
 export const signUpModalReducer = SignUpModalslice.reducer;
 export const userinfoModalReducer = userinfoslice.reducer;
 export const PopupModalReducer = PopupModalslice.reducer;
 export const EditPasswordModalsliceReducer = EditPasswordModalslice.reducer;
-export const FilterModalReducer=CarFilterModalslice.reducer
+export const FilterModalReducer = CarFilterModalslice.reducer

@@ -21,12 +21,6 @@ export const getNavbarItems = () => {
       showdownarrow: true
     },
     {
-      href: `/search`,
-      label: 'Search car',
-      active: pathname === `/search`,
-      showdownarrow: false
-    },
-    {
       href: `/news`,
       label: 'News',
       active: pathname === `/news`,

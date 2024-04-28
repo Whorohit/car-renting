@@ -21,7 +21,7 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return <SessionProvider session={pageProps.session}>
     <Provider store={store}>
-      <main className="font-sans relative" >
+      <div className="font-sans relative  w-[200vw] md:w-auto" >
        {/* Place the ErrorBoundary component here */}
           <Userinfodata />
           <Editpassword />
@@ -33,7 +33,7 @@ export default function App({ Component, pageProps }: AppProps) {
           <Userinfodata />
           <Component {...pageProps} />
       
-      </main>
+      </div>
     </Provider>
   </SessionProvider >
 

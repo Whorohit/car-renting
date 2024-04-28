@@ -21,6 +21,8 @@ import { useDispatch } from 'react-redux';
 import { useSelector } from 'react-redux';
 import { toggleLoginModal, togglePopup } from '@/store';
 import toast, { Toaster } from 'react-hot-toast';
+import { useFilterCar } from '../../../hooks/useFilter';
+import InfinteSrcoll from '@/components/InfintSrcoll';
 
 interface Props {
   data: Record<string, any>
@@ -28,6 +30,7 @@ interface Props {
 }
 
 const Carinfo: React.FC<Props> = () => {
+  const { data: cars = [], totalcount, size, setSize, mutate } = useFilterCar({});
   const dispatch = useDispatch();
   const ispopupModal = useSelector((state: any) => state.popup.isOpen);
 
@@ -317,8 +320,8 @@ const Carinfo: React.FC<Props> = () => {
               </h1>
               <div className='h-[1px] my-6  bg-neutral-200 mx-auto  w-[80%]' />
               <div className='relative'>
-                <IoLocationOutline className='absolute bottom-2 left-8' />
-                <Input label='Available City' classname='w-[90%] mx-auto h-9 my-0  pl-7 text-neutral-800 border-[.5px] border-gray-100 bg-transparent  rounded-md outline-none  hover:bg-blue-50 focus:border-gray-200' classnamelabel='w-[90%] mx-auto  my-0  font-semibold outline-none    text-base  h-8 ' value={data?.Availablecity
+                <IoLocationOutline className='absolute bottom-2 left-10' />
+                <Input label='Available City' classname='w-[90%] mx-auto h-9 my-0  pl-9 text-neutral-800 border-[.5px] border-gray-100 bg-transparent  rounded-md outline-none  hover:bg-blue-50 focus:border-gray-200' classnamelabel='w-[90%] mx-auto  my-0  font-semibold outline-none    text-base  h-8 ' value={data?.Availablecity
                 } disabled={true} type='text' />
               </div>
 
@@ -390,8 +393,9 @@ const Carinfo: React.FC<Props> = () => {
             </div>
           </div>
           <div className=' '>
-            <h1 className='w-[90%] flex justify-between items-center  my-2  mx-auto  text-left  font-semibold text-lg text-neutral-600  tracking-tight'>Description <CiCircleMinus size={20} /></h1>
-            <div className='flex-col flex justify-between  w-[90%] mx-auto'>
+            <h1 className='w-[90%] flex justify-between items-center  my-2  mx-auto  text-left  font-semibold text-lg text-neutral-600  tracking-tight' onClick={() => {
+              settoggledes(!toggledes)}} >Description <CiCircleMinus size={20}  /></h1>
+            <div className={`flex-col flex justify-between  w-[90%] mx-auto  transition-transform  mx-auto overflow-hidden   ${toggledes ? "min-h-64 " : "max-h-0 "}`}>
               {/* <div className='flex justify-between gap-10 '>
               <h1 className='basis-1/2 flex justify-between gap-10 text-neutral-800 font-bold text-base ' >Engine <span className='font-semibold text-neutral-500 text-sm'>1.litre</span> </h1>
               <h1 className='basis-1/2 flex justify-between gap-10 '>Engine <span>1.litre</span> </h1>
@@ -409,12 +413,20 @@ const Carinfo: React.FC<Props> = () => {
           </div>
         </div>
         <h1 className='mx-auto text-start w-[90%] font-bold text-black text-xl mt-4'>Others Cars</h1>
-        <div className='flex flex-row '>
-          <div className='flex flex-col  mx-auto lg:mx-0 lg:ml-20 items-center lg:items-start  justify-center lg:justify-start w-full  lg:w-[60%] gap-5  my-5'>
-            <Carcard />
-            <Carcard />
-            <Carcard />
-            <Carcard />
+        <div className='flex flex-row flex-wrap      md:justify-normal w-full md:w-[80%] mx-auto mt-5 '>
+          <div className='w-full  justify-start pt-12  flex flex-col items-start md:basis-[70%] gap-4'>
+            <InfinteSrcoll
+
+              data={cars}
+              dataLength={cars?.length}
+              next={() => setSize(size + 1)}
+              hasmore={cars?.length + 1 < totalcount}
+            // className='w-[100%] flex flex-col justify-start items-center gap-5 '
+            >
+              {cars?.map((car: Record<string, any>) => (
+                <Carcard data={car} />
+              ))}
+            </InfinteSrcoll>
           </div>
           <div className='   hidden md:flex flex-col gap-4 md:basis-[25%]'>
             <Similarproduct title={' Brand'} data={Brand} lengthstart={5} lengthend={11} type='Brand' />

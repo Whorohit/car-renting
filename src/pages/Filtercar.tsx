@@ -1,15 +1,21 @@
 import CategoryFilter from '@/components/CategoryFilter'
+import Similarproduct from '@/components/Similarprduct'
 import { toggleFilterModal } from '@/store'
-import React, { useCallback } from 'react'
+import React, { useCallback, useEffect } from 'react'
 import { RxCross1 } from 'react-icons/rx'
 import { useSelector } from 'react-redux'
 import { useDispatch } from 'react-redux'
-
+import { brandname } from '../../hooks/brandname'
+import data from '../../public/category.json'
+import { useFilterCar } from '../../hooks/useFilter'
+import InfinteSrcoll from '@/components/InfintSrcoll'
+import Carcard from '@/components/Carcard/Carcard'
 interface Props {
 
 }
 
 const Filtercars: React.FC<Props> = ({ }) => {
+  const { data: BBrand } = brandname()
   const dispatch = useDispatch()
   const { Brand,
     Category,
@@ -21,9 +27,17 @@ const Filtercars: React.FC<Props> = ({ }) => {
   const toggleboard = useCallback(
     () => {
       dispatch(toggleFilterModal())
+     
     },
     [dispatch, toggleFilterModal],
   )
+ 
+  const {data:cars=[],totalcount,size,setSize,mutate}=useFilterCar({ Brand:Brand, Body:Category, pricerange:Budget, Transmission:Transmission, Fuel:Fuel, order:sort});
+  useEffect(() => {
+mutate()
+    setSize(1); // Trigger refetch when filter values change
+  }, [Brand, Category, Fuel, Budget, Transmission, sort, setSize]);
+  
   return (
 
     <div className='my-12  p-8 lg:p-16'>
@@ -45,6 +59,35 @@ const Filtercars: React.FC<Props> = ({ }) => {
         })}
 
       </div>
+      <div className='flex flex-row flex-wrap      md:justify-normal w-full md:w-[80%] mx-auto mt-5 '>
+        <div className='w-full  justify-start pt-12  flex flex-col items-start md:basis-[70%] gap-4'>
+          {/* {
+            cars?.map((car: Record<string, any>) => {
+              return (
+                <Carcard data={car} />
+              )
+            })
+          } */}
+          <InfinteSrcoll
+
+            data={cars}
+            dataLength={cars?.length}
+            next={() => setSize(size + 1)}
+            hasmore={cars?.length + 1 < totalcount}
+            // className='w-[100%] flex flex-col justify-start items-center gap-5 '
+          >
+            {cars?.map((car: Record<string, any>) => (
+              <Carcard data={car} />
+            ))}
+          </InfinteSrcoll>
+
+        </div>
+        <div className='   hidden md:flex flex-col gap-4 md:basis-[25%]'>
+          <Similarproduct title={' Brand'} data={BBrand} lengthstart={5} lengthend={11} type='Brand' />
+          <Similarproduct title={'Category'} data={data} type='Body' />
+        </div>
+      </div>
+      
 
     </div>
   )

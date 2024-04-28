@@ -11,12 +11,23 @@ import Slider from 'rc-slider';
 import 'rc-slider/assets/index.css';
 import Input from './Formfield/Input';
 import { useSelector } from 'react-redux';
-import {  setBrandKey, toggleFilterModal } from '../store/index';
+import { toggleFilterModal, updateFilterBrand, updateFilterCategory, updateFilterFuel, updateFilterTransmission,updateBudgetFilter, ClearFilter } from '../store/index';
 import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
+import { PiCheckFatLight, PiCheckFatThin } from "react-icons/pi";
+import { useFilterCar } from '../../hooks/useFilter';
 type Props = {}
 
 const FilterBoard: React.FC<Props> = ({ }) => {
-    const isFilterOpen = useSelector((state: any) => state.Filter.isOpen);
+    
+    const { isOpen: isFilterOpen,
+        Brand: Brandlist,
+        Category: Categorylist,
+        Fuel: Fuellist,
+        Budget: BudgetList,
+        Transmission: Transmissionlist,
+        sort: sortorder } = useSelector((state: any) => state.Filter);
+    const router = useRouter();
     const dispatch = useDispatch()
     const [state, setState] = useState({
         showCategory: false,
@@ -24,9 +35,9 @@ const FilterBoard: React.FC<Props> = ({ }) => {
         showTransmission: false,
         showFuel: false,
         showBudget: false,
-        showPop:false
+        showPop: false
     });
-
+    console.log(BudgetList)
     const { data: Brand } = brandname()
     const toggleState = useCallback(
         (key: keyof typeof state) => {
@@ -35,7 +46,10 @@ const FilterBoard: React.FC<Props> = ({ }) => {
                 [key]: !prevState[key]
             }));
         },
+
+
         [setState]
+
     );
     const marks = {
         0: '0',
@@ -45,26 +59,31 @@ const FilterBoard: React.FC<Props> = ({ }) => {
         1000000: '10l',
         2000000: '20l'
     };
-    const [sliderValue, setSliderValue] = useState([0, 2000000]);
+    const [sliderValue, setSliderValue] = useState(BudgetList);
 
     const handleSliderChange = (value: any) => {
-        console.log(value);
-
         setSliderValue(value);
+        dispatch(updateBudgetFilter(sliderValue))
+         
     };
 
 
     const changemin = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             const newMinValue = parseInt(e.target.value, 10); // Parse the value to an integer
-            setSliderValue(prevValue => [newMinValue, prevValue[1]]);
-        },
+            setSliderValue((prevValue: any) => [newMinValue, prevValue[1]]);
+            dispatch(updateBudgetFilter([newMinValue,sliderValue[1]]))
+
+        }, 
+       
         [setSliderValue]
     );
     const changemax = useCallback(
         (e: React.ChangeEvent<HTMLInputElement>) => {
             const newMinValue = parseInt(e.target.value, 10); // Parse the value to an integer
-            setSliderValue(prevValue => [prevValue[0], newMinValue,]);
+            setSliderValue((prevValue: any) => [prevValue[0], newMinValue,]);
+            dispatch(updateBudgetFilter([sliderValue[0],newMinValue]))
+           
         },
         [setSliderValue]
     );
@@ -81,9 +100,18 @@ const FilterBoard: React.FC<Props> = ({ }) => {
         )
     }
     const handleBrandSelection = (brandItem: string) => {
-        // Dispatch the setBrandKey async thunk with the selected brandItem
-        dispatch(setBrandKey({brandItem}))
-      }
+        dispatch(updateFilterBrand(brandItem))
+    };
+    const handleBodySelection = (brandItem: string) => {
+        dispatch(updateFilterCategory(brandItem))
+    };
+    const handleTranmissionSelection = (brandItem: string) => {
+        dispatch(updateFilterTransmission(brandItem))
+    };
+    const handleFuelSelection = (brandItem: string) => {
+        dispatch(updateFilterFuel(brandItem))
+    };
+
     return (
 
         <div className='min-h-[120vh] w-full m-0 bg-black bg-opacity-60   top-0 fixed z-[60] flex justify-center items-center '>
@@ -100,14 +128,10 @@ const FilterBoard: React.FC<Props> = ({ }) => {
                             <div className='flex justify-center items-center px-5 my-6'>
                                 <Slider
                                     range
-
                                     min={0}
                                     allowCross={false}
                                     max={2000000}
                                     marks={marks}
-
-
-
                                     onChange={handleSliderChange}
 
                                     value={sliderValue}
@@ -126,9 +150,12 @@ const FilterBoard: React.FC<Props> = ({ }) => {
                         <div className={`overflow-hidden transition-max-height duration-300 ${state.showCategory ? 'max-h-[25rem]' : 'max-h-0'}`}>
                             <div className='flex flex-wrap flex-row gap-4 px-2 items-center justify-start my-5'>
                                 {Category?.map((item) => (
-                                    <div key={item.brandname} className=' h-[5rem] w-[4.5rem]  md:w-[8rem] opacity-70 flex justify-center border-[1px] rounded-md border-gray-500 flex-col items-center text-neutral-600 p-2' >
+                                    <div onClick={() => {
+                                        handleBodySelection(item.brandname)
+                                    }} className={`h-[6rem] w-[4.5rem]  md:w-[8rem] opacity-70 flex justify-center  relative rounded-md  ${Categorylist.includes(item.brandname) ? " border-[1.7px] border-sky-600" : " border-gray-500 border-[1px]"}  flex-col items-center text-neutral-600 p-3 `} >
+                                        {Categorylist.includes(item.brandname) && <PiCheckFatLight className='absolute top-0 right-0  text-sky-600   rounded-full font-bold ' />}
                                         <Image src={item.brandimage} className='flex justify-center ' width={50} height={50} alt={item.brandname} />
-                                        <h1 className='text-xs md:text-sm'>{item.brandname}</h1>
+                                        <h1 className={`text-xs md:text-sm mt-1 ${Categorylist.includes(item.brandname) ? "font-semibold text-sky-500" : ""}  `}>{item.brandname}</h1>
                                     </div>
                                 ))}
                             </div>
@@ -139,11 +166,14 @@ const FilterBoard: React.FC<Props> = ({ }) => {
                             Brand <MdOutlineKeyboardArrowDown size={25} className={`transform transition-transform duration-300 ${state.showBrand ? 'rotate-180' : ''}`} onClick={() => toggleState('showBrand')} />
                         </h1>
                         <div className={`overflow-hidden transition-max-height duration-300 ${state.showBrand ? 'min-h-[40rem]' : 'max-h-0'}`}>
-                            <div className='flex flex-wrap flex-row gap-4 px-2 items-center justify-start my-5'>
+                            <div className='flex flex-wrap flex-row gap-4 px-2 items-center justify-start my-5' >
                                 {Brand?.map((item: Record<string, any>) => (
-                                    <div key={item.brandname} className='h-[6rem] w-[4.5rem]  md:w-[8rem] opacity-70 flex justify-center border-[1px] rounded-md border-gray-500 flex-col items-center text-neutral-600 p-3'>
+                                    <div key={item.brandname} onClick={() => {
+                                        handleBrandSelection(item.brandname)
+                                    }} className={`h-[6rem] w-[4.5rem]  md:w-[8rem] opacity-70 flex justify-center  relative rounded-md  ${Brandlist.includes(item.brandname) ? " border-[1.7px] border-sky-600" : " border-gray-500 border-[1px]"}  flex-col items-center text-neutral-600 p-3 `}>
+                                        {Brandlist.includes(item.brandname) && <PiCheckFatLight className='absolute top-0 right-0  text-sky-600   rounded-full font-bold ' />}
                                         <Image src={item.brandimage} className='flex justify-center rounded-md' width={50} height={50} alt={item.brandname} />
-                                        <h1 className='text-xs md:text-sm'>{item.brandname}</h1>
+                                        <h1 className={`text-xs md:text-sm ${Brandlist.includes(item.brandname) ? "font-semibold text-sky-500" : ""}  `}>{item.brandname}</h1>
                                     </div>
                                 ))}
                             </div>
@@ -156,9 +186,12 @@ const FilterBoard: React.FC<Props> = ({ }) => {
                         <div className={`overflow-hidden transition-max-height duration-700 ${state.showTransmission ? 'max-h-[15rem]' : 'max-h-0'}`}>
                             <div className='flex flex-wrap flex-row  gap-5 md:gap-4 px-2 items-center justify-start my-5'>
                                 {Transmission?.map((item: Record<string, any>) => (
-                                    <div key={item.brandname} className='h-[5rem] w-[4.5rem]  md:w-[8rem] opacity-70 flex justify-center border-[1px] rounded-md border-gray-500 flex-col items-center text-neutral-600 p-3'>
+                                    <div key={item.brandname} className={`h-[6rem] w-[4.5rem]  md:w-[8rem] opacity-70 flex justify-center  relative rounded-md  ${Transmissionlist.includes(item.brandname) ? " border-[1.7px] border-sky-600" : " border-gray-500 border-[1px]"}  flex-col items-center text-neutral-600 p-3 `} onClick={() => {
+                                        handleTranmissionSelection(item.brandname)
+                                    }}>
+                                        {Transmissionlist.includes(item.brandname) && <PiCheckFatLight className='absolute top-0 right-0  text-sky-600   rounded-full font-bold ' />}
                                         <Image src={item.brandimage} className='flex justify-center rounded-md' width={50} height={50} alt={item.brandname} />
-                                        <h1 className=' text-xs md:text-sm'>{item.brandname}</h1>
+                                        <h1 className={`text-xs md:text-sm ${Transmissionlist.includes(item.brandname) ? "font-semibold text-sky-500" : ""}  `}>{item.brandname}</h1>
                                     </div>
                                 ))}
                             </div>
@@ -171,9 +204,12 @@ const FilterBoard: React.FC<Props> = ({ }) => {
                         <div className={`overflow-hidden transition-max-height duration-300 ${state.showFuel ? 'max-h-[20rem]' : 'max-h-0'}`}>
                             <div className='flex flex-wrap flex-row gap-4 px-2 items-center justify-start my-5'>
                                 {Fuel?.map((item: Record<string, any>) => (
-                                    <div key={item.brandname} className='h-[5rem] w-[4.5rem]  md:w-[8rem] opacity-70 flex justify-center border-[1px] rounded-md border-gray-500 flex-col items-center text-neutral-600 p-3'>
+                                    <div key={item.brandname} className={`h-[6rem] w-[4.5rem]  md:w-[8rem] opacity-70 flex justify-center  relative rounded-md  ${Fuellist.includes(item.brandname) ? " border-[1.7px] border-sky-600" : " border-gray-500 border-[1px]"}  flex-col items-center text-neutral-600 p-3 `} onClick={()=>{
+                                        handleFuelSelection(item.brandname)
+                                    }} >
+                                          {Fuellist.includes(item.brandname)&&   <PiCheckFatLight  className='absolute top-0 right-0  text-sky-600   rounded-full font-bold '/>}
                                         <Image src={item.brandimage} className='flex justify-center rounded-md' width={50} height={50} alt={item.brandname} />
-                                        <h1 className='text-sm'>{item.brandname}</h1>
+                                        <h1 className={`text-xs md:text-sm ${Transmissionlist.includes(item.brandname) ? "font-semibold text-sky-500" : ""}  `}>{item.brandname}</h1>
                                     </div>
                                 ))}
                             </div>
@@ -197,8 +233,18 @@ const FilterBoard: React.FC<Props> = ({ }) => {
 
                 </div>
                 <div className='flex justify-end items-center  gap-4 p-4'>
-                    <button className='py-1  px-2 bg-neutral-100 rounded-md border hover:bg-neutral-300 text-neutral-800 border-neutral-200' >Clear</button>
-                    <button className='py-1  px-2 bg-blue-200 rounded-md border-2 hover:bg-blue-400 text-neutral-800' >Continue</button>
+                    <button className='py-1  px-2 bg-neutral-100 rounded-md border hover:bg-neutral-300 text-neutral-800 border-neutral-200' onClick={()=>{dispatch(ClearFilter())
+                     setSliderValue([0,2000000])
+                     toggleboard()
+                      }}
+                       >Clear</button>
+                    <button className='py-1  px-2 bg-blue-200 rounded-md border-2 hover:bg-blue-400 text-neutral-800' onClick={() => {
+                    
+if(!router.pathname.includes("/Filtercar")){router.push('/Filtercar') 
+}
+toggleboard()
+
+                    }} >Continue</button>
                 </div>
             </div>
         </div>
