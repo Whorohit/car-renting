@@ -1,3 +1,4 @@
+import { corsMiddleware } from "@/lib/init-middleware";
 import { NextApiRequest, NextApiResponse } from "next";
 import Razorpay from "razorpay";
 const instance = new Razorpay({
@@ -6,6 +7,7 @@ const instance = new Razorpay({
 });
 
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
+  await corsMiddleware(req, res); // Apply CORS middleware
   if (req.method !== "POST") { res.status(485).end() }
   const options = {
     amount: Number(req.body.amount * 100),

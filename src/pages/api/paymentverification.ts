@@ -1,9 +1,11 @@
 import { NextApiRequest, NextApiResponse } from "next";
 import crypto from 'crypto'
 import prisma from '../../../libs/db'
+import { corsMiddleware } from "@/lib/init-middleware";
 export default async function handler(req: NextApiRequest, res: NextApiResponse) {
-  try {
 
+  try {
+    await corsMiddleware(req, res); // Apply CORS middleware
     const { razorpay_order_id, razorpay_payment_id, razorpay_signature } =
       req.body;
     const { price, userId, Mode, carModalId, startdate, enddate } = req.query as {
