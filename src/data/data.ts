@@ -1,8 +1,10 @@
 import { usePathname } from "next/navigation"
 import { RiLockPasswordLine } from 'react-icons/ri';
 import {FaRegEdit,FaCar} from 'react-icons/fa'
-import {MdCarRental} from 'react-icons/md'
+import {MdCarRental,MdCategory,MdBatchPrediction} from 'react-icons/md'
+import { BsFillFileEarmarkPostFill } from "react-icons/bs";
 
+import { GiNewspaper } from "react-icons/gi"
 export const getNavbarItems = () => {
   // Call usePathname within a functional component
   const pathname = usePathname();
@@ -11,24 +13,28 @@ export const getNavbarItems = () => {
     {
       href: `/Post`,
       label: 'Post',
+      icons:BsFillFileEarmarkPostFill,
       active: pathname === `/categories`,
       showdownarrow: true
     },
     {
       href: `/`,
       label: 'Category',
+      icons:MdCategory,
       active: pathname === `/brand`,
       showdownarrow: true
     },
     {
       href: `/news`,
       label: 'News',
+      icons:GiNewspaper,
       active: pathname === `/news`,
       showdownarrow: false
     },
     {
       href: `/predict`,
       label: 'Predict',
+      icons:MdBatchPrediction,
       active: pathname === `/news`,
       showdownarrow: false
     }

@@ -31,8 +31,8 @@ const Autocompleted: React.FC<Props> = ({ data, value, setValue }) => {
   };
   return (
 
-    <div>
-      <AutoComplete data={data}  placeholder='Serach Your Car' 
+    <div className=' h-fit'>
+      <AutoComplete data={data}   size='lg' placeholder='Serach Your Car' 
          onChange={handleChange}
           onSelect={handleSelect}/>
     </div>

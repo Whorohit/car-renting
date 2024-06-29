@@ -21,18 +21,18 @@ export default function App({ Component, pageProps }: AppProps) {
 
   return <SessionProvider session={pageProps.session}>
     <Provider store={store}>
-      <div className="font-sans relative  w-[200vw] md:w-auto" >
-       {/* Place the ErrorBoundary component here */}
-          <Userinfodata />
-          <Editpassword />
-          <FilterBoard />
-          <SignUp />
-          <Login />
-          <Sidenavbar />
-          <Navbar />
-          <Userinfodata />
-          <Component {...pageProps} />
-      
+      <div className="font-sans relative  " >
+        {/* Place the ErrorBoundary component here */}
+
+        <Editpassword />
+        <FilterBoard />
+        <SignUp />
+        <Userinfodata />
+        <Login />
+        <Popup />
+        <Navbar />
+        <Component {...pageProps} />
+
       </div>
     </Provider>
   </SessionProvider >

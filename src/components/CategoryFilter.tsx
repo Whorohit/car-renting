@@ -29,10 +29,10 @@ const CategoryFilter:React.FC<Props> = ({}) => {
            {item.title}</button>
        ))}
     </div>
-    <div className='md:hidden flex  bg-blue-500  fixed left-0  flex-col   justify-start  items-start pl-2 pr-3 rounded-tr-md rounded-br-md  mt-6   '> 
+    <div className='md:hidden flex  top-[5rem]  bg-blue-500  fixed left-0  flex-col   justify-start  items-start pl-2 pr-3 rounded-tr-md rounded-br-md     '> 
        {items.map((item)=>(
           <div className='py-4 hover:scale-95 '>
-             <Image  alt='filter' width={20} height={20} src={`/${item.icons}.png`} key={item.title}/>
+             <Image  alt='filter' onClick={toggleboard} width={20} height={20} src={`/${item.icons}.png`} key={item.title}/>
           </div>
        ))}
     </div>

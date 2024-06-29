@@ -21,7 +21,7 @@ const Modal: React.FC<Props> = ({ title, body, footer, actionlabel, isOpen, onCl
         "
 
     >
-      <div className='flex flex-col  w-3/4 h-auto py-4 bg-blue-100 shadow-lg md:w-1/2 rounded-lg m-8 border  border-neutral-100 gap-4'>
+      <div className='flex flex-col  w-[85%] h-auto py-4 bg-blue-100 shadow-lg md:w-1/2 rounded-lg m-8 border  border-neutral-100 gap-4'>
         <button
           className="
                   p-1 
@@ -36,11 +36,11 @@ const Modal: React.FC<Props> = ({ title, body, footer, actionlabel, isOpen, onCl
         onClick={onClose}>
           <AiOutlineClose size={20} />
         </button>
-        <h1 className='text-center font-bold text-3xl text-neutral-700 font-sans tracking-widest  '>{title}</h1>
+        <h1 className='text-center font-bold text-4xl text-neutral-700 font-sans tracking-widest  '>{title}</h1>
         <div className="relative px-5  flex-auto">
           {body}
         </div>
-        <div className='w-full flex justify-center items-center p-3 '>
+        <div className='w-full md:text-base text-2xl  flex justify-center items-center p-3 '>
  <button className='w-full   bg-blue-400 rounded-md  text-neutral-700  py-2
                   hover:bg-blue-600
                   transition ' onClick={onSubmit}>{actionlabel}</button>

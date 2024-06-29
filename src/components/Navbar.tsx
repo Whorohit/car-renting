@@ -11,6 +11,7 @@ import Userinfodata from './userinfodata';
 import Categoryhover from './Categoryhover';
 import trans from '../../public/Transmission.json';
 import item from '../../public/category.json'
+import { CiMenuFries } from 'react-icons/ci';
 interface NavbarProps {
   islogin?: boolean,
 
@@ -48,6 +49,7 @@ const Navbar: React.FC<NavbarProps> = ({ islogin }) => {
   const navbaritem = getNavbarItems()
   const getuserinfomodal = useCallback(
     () => {
+      
       console.log('heeo');
       dispatch(toggleuserinfo());
     },
@@ -62,8 +64,8 @@ const Navbar: React.FC<NavbarProps> = ({ islogin }) => {
 
 
   return (
-    <div className='  rounded-lg bg-neutral-100 opacity-80    top-0  fixed  z-10 flex gap-4  justify-between py-2   h-12 items-center   px-4 w-full   mx-auto      '>
-      <Link className=' text-sm md:text-xl font-bold tracking-normal md:tracking-wider   ' href={'/'}>C A R E N T </Link>
+    <div className='  rounded-lg md:bg-neutral-100 opacity-80    top-0  fixed  z-10 flex gap-4  justify-between py-2   min-h-[3.5rem] md:min-h-12 items-center   px-4 w-full   mx-auto      '>
+      <Link className='text-2xl font-bold tracking-normal md:tracking-wider   ' href={'/'}>C A R E N T </Link>
       <div className='md:flex gap-10 hidden tracking-wide  text-neutral-800 font-bold text-lg transition-all duration-300  '>
         {
           navbaritem?.map((data) => {
@@ -90,10 +92,15 @@ const Navbar: React.FC<NavbarProps> = ({ islogin }) => {
 
       </div>
 
-      <div className='flex relative gap-8  min-w-[4rem] font-mono font-semibold  text-sm md:text-lg text-blue-800  items-center justify-start '>
-        {!currentuser ? (<><button className='bg-transparent font-bold  border-blue-200 hover:scale-90 hover:bg-blue-300 hover:text-black cursor-pointer  border-2 px-3  py-1 rounded-xl ' onClick={handleclosesignup}>Register</button>
-          <button className='bg-transparent  font-bold border-blue-200  hover:scale-90 hover:bg-blue-300 hover:text-black  px-3  border-2  py-1 rounded-xl  cursor-pointer' onClick={handleclose}>Login</button></>)
-          : (<FaRegUserCircle size={25} className='text-neutral-600   font-thin' onClick={getuserinfomodal} />)}
+      <div className='flex relative gap-8   min-w-[5rem] font-mono font-semibold  text- text-blue-800  items-center justify-end min-h-[3.5rem] md:min-h-12 '>
+      <CiMenuFries size={20} className='font-bold text-xl  block md:hidden' onClick={getuserinfomodal} />
+
+        <div className='md:block hidden'> {!currentuser ? (<>
+         
+          <button className='bg-transparent  font-bold border-blue-200  hover:scale-90 hover:bg-blue-300 hover:text-black  px-3  border-2  py-1 rounded-xl  cursor-pointer' onClick={handleclose}>Login
+          </button>
+        </>)
+          : (<FaRegUserCircle size={25} className='text-neutral-600   font-thin' onClick={getuserinfomodal} />)}</div>
       </div>
       <Userinfodata isOpen={isuserinfonavbar} />
     </div>

@@ -21,8 +21,8 @@ const SearchCar: React.FC<Props> = ({ }) => {
 
     return (
         <div> <div className='mt-4   md:p-10 relative'>
-            <h1 className='w-[90%] mx-auto text-2xl font-bold capitalize tracking-wider text-neutral-800'>Cars</h1>
-            <h1 className='w-[90%]  mx-auto text-base font-normal capitalize  text-blue-500'>
+            <h1 className=' text-4xl  md:w-[90%] mx-auto px-5  md:text-2xl font-bold capitalize tracking-wider text-neutral-800'>Cars</h1>
+            <h1 className='  w-[200%] md:w-[90%]  mx-auto text-2xl px-5 md:text-base font-normal capitalize text-blue-500'>
                 Are you planning Rent or buy a car? Well, we know that  Brand ,bodystyle, Fuel,Transmission etc  is one of the most crucial things while buying a car and with so many options available out there, it gets really difficult to find a good car which suits your pocket. Hence, we have put together a complete list of best SUV cars.
             </h1>
             <CategoryFilter />

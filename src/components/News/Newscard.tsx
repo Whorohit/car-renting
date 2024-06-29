@@ -18,17 +18,21 @@ const Newscard: React.FC<Props> = ({ data }) => {
 
     
     return (
-        <div className='flex   flex-col   lg:flex-row  gap-0 
-    border-neutral-300 border-2 p-2    w-full   lg:w-[70%]  justify-between rounded-lg   lg:min-h-[27rem]  lg:max-h-[40rem]  tex ' >
+        <div className='flex  flex-col md:flex-row gap-0 
+     border-neutral-300 border-2 p-2 w-[90%]  justify-between rounded-lg   tex' >
 
 
 
-            <Image src={`https://www.nytimes.com/${data.multimedia[0]?.url}`} alt='car image' width={400} className='   lg:basis-1/3 p-4 rounded- lg' quality={100} height={300} />
+            {/* <Image src={`https://www.nytimes.com/${data.multimedia[0]?.url}`} alt='car image' width={400} className='   lg:basis-1/3 p-4 rounded- lg' quality={100} height={300} /> */}
+            {<Image src={`https://www.nytimes.com/${data.multimedia[0]?.url}`} alt='car image' width={100} className='md:block hidden   basis-full md:basis-1/3 p-4  h-[20rem]' quality={100} height={100} />}
+            <div className='md:hidden text-center flex justify-center items-cente h-[20rem]  basis-full md:basis-1/3 p-4 '>
+                {<Image src={`https://www.nytimes.com/${data.multimedia[0]?.url}`} alt='car image' width={700} className='h-[20rem]' quality={100} height={100} />}
+            </div>
             <div className=' basis-2/3 '>
-                <h1 className='font-semibold w-[80%] ml-10 text-neutral-700 text-base  lg:text-lg  tracking-wider '>
+                <h1 className='font-semibold w-[80%] text-center ml-10 text-neutral-700 text-2xl  lg:text-lg  tracking-wider '>
                     {data.headline.main}
                 </h1>
-                <h1 className=' text-sm  lg:text-base text-blue-400 font-normal w-[80%]  ml-10' >
+                <h1 className=' text-base text-blue-400 font-normal w-[80%]  ml-10' >
                     {data.lead_paragraph
                     }
                 </h1>

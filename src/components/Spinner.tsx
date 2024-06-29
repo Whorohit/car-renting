@@ -5,15 +5,15 @@ type Props = {}
 const Spinner = (props: Props) => {
   return (
     <Oval
-  visible={true}
-  height="80"
-  width="80"
-  color="#2563eb"
-  secondaryColor="#f0f0f0"
-  ariaLabel="oval-loading"
-  wrapperStyle={{}}
-  wrapperClass=""
-  />
+      visible={true}
+      height="80"
+      width="80"
+      color="#2563eb"
+      secondaryColor="#f0f0f0"
+      ariaLabel="oval-loading"
+      wrapperStyle={{}}
+      wrapperClass=""
+    />
   )
 }
 

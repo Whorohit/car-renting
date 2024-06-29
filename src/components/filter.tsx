@@ -1,4 +1,4 @@
-import React, { useCallback } from 'react'
+import React, { memo, useCallback } from 'react'
 
 interface Props {
     data: string[];
@@ -20,7 +20,7 @@ const Filter: React.FC<Props> = ({ data = [], type,settype
     )
     
     return (
-        <div className='flex justify-start gap-3  w-[80%]  mt-5  mx-auto   border-t pt-2  '>
+        <div className='flex justify-start  gap-5 md:gap-12  text-2xl md:text-xl  w-[80%]  mt-5  mx-auto   border-t pt-2  '>
             {data.map((item) => {
                 return (
                     <div>
@@ -33,4 +33,4 @@ const Filter: React.FC<Props> = ({ data = [], type,settype
     )
 }
 
-export default Filter
+export default memo( Filter)

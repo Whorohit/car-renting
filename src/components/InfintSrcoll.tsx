@@ -11,11 +11,12 @@ type Props = {
     dataLength:number;
     children: React.ReactNode;
     className?:string;
+    width?:string
 
 }
 
 const InfinteSrcoll: React.FC<Props> = ({ data=[], next, hasmore
-,dataLength=10,children,className
+,dataLength=10,children,className,width
 }) => {
     
     const hasMore = hasmore !== undefined ? hasmore : data?.length <= 100;
@@ -24,7 +25,7 @@ const InfinteSrcoll: React.FC<Props> = ({ data=[], next, hasmore
         <InfiniteScroll
             dataLength={dataLength}
             next={next}
-            style={{ width: `${className?"100%":"200%"}`, display: 'flex', flexDirection: 'column',justifyContent:"center",alignItems:"center",gap:"1rem" }} //To put endMessage and loader to the top.
+            style={{ width: `${width?width:"200%"}`, display: 'flex', flexDirection: 'column',justifyContent:"center",alignItems:"center",gap:"1rem" }} //To put endMessage and loader to the top.
             //
 
             endMessage={

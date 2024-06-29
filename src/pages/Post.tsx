@@ -446,7 +446,7 @@ const onsubmit=useCallback(
     }
     return (
 
-        <div className='mt-8 relative px-4 md:p-8 flex flex-col  justify-between md:flex-row '>
+        <div className='mt-36 relative px-4 md:p-8 flex flex-col  justify-between md:flex-row '>
             <div className='basis-[70%] '>
                 <h1 className='text-2xl font-bold   tracking-wide   ml-5 md:ml-10     w-[90%] md:w-[70%]  text-neutral-800 border-b-2 pb-4 border-neutral-500'>Rent/Sell Your Car</h1>
 

@@ -72,30 +72,30 @@ const SignUp: React.FC<Props> = ({ }) => {
     <div className='flex flex-col gap-0'>
 
       <Input placeholder='John Smith'
-        classname='w-full px-2'
+        classname='w-full  text-2xl md:text-base   h-[4rem] md:h-12    px-2'
         label='Name'
-        classnamelabel='w-full px-2'
+        classnamelabel='w-full font-normal     text-2xl md:text-sm px-2'
         onchange={(e) => { setName(e.target.value) }}
         value={name}
       />
       <Input placeholder='ram12@gmail.com'
-        classname='w-full px-2'
+        classname='w-full  text-2xl md:text-base   h-[4rem] md:h-12    px-2'
         label='Email'
-        classnamelabel='w-full px-2'
+        classnamelabel='w-full font-normal     text-2xl md:text-sm px-2'
         onchange={(e) => { setEmail(e.target.value) }}
         value={email}
       />
       <Input placeholder='123acc'
         label='Password'
-        classname='w-full px-2'
-        classnamelabel='w-full px-2'
+        classname='w-full  text-2xl md:text-base   h-[4rem] md:h-12    px-2'
+        classnamelabel='w-full font-normal     text-2xl md:text-sm px-2'
         onchange={(e) => { setpassword(e.target.value) }}
         value={password}
       />
     </div>
   )
   const footerContent = (
-    <div className='text-neutral-400 text-center mt-4 '>
+    <div className='text-neutral-400 text-center md:text-base text-xl  mt-4 mb-4'>
       <div className='text-neutral-400 text-center mt-4 '>
         <p className=''>Already have  an account? <span className='cursor-pointer hover:underline  text-blue-600' onClick={() => {
           handleclosesignup();

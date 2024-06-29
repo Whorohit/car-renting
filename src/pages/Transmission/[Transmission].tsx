@@ -19,33 +19,45 @@ function Transmission({ }: Props) {
   console.log(cars);
 
   return (
-    <div className='mt-4   md:p-10 relative'>
-      <h1 className='w-[90%] mx-auto text-2xl font-bold capitalize tracking-wider text-neutral-800'>{Transmission}-Cars</h1>
-      <h1 className='w-[90%]  mx-auto text-base font-normal capitalize  text-blue-500'>
+    <div className='mt-36      relative '>
+      <h1 className=' text-4xl  md:w-[90%] mx-auto px-5  md:text-2xl font-bold capitalize tracking-wider text-neutral-800'>{Transmission}-Cars</h1>
+      <h1 className='  md:w-[90%]  mx-auto text-2xl px-5 md:text-base font-normal capitalize text-blue-500'>
         Are you planning Rent or buy a <span className='font-bold'>{Transmission}</span> car? Well, we know that  Brand ,bodystyle, Fuel,Transmission etc  is one of the most crucial things while buying a car and with so many options available out there, it gets really difficult to find a good car which suits your pocket. Hence, we have put together a complete list of best SUV cars.
       </h1>
       <CategoryFilter />
       <div className='flex flex-row flex-wrap      md:justify-normal w-full md:w-[80%] mx-auto mt-5 '>
-        <div className='w-full  justify-start pt-12  flex flex-col items-start md:basis-[70%] gap-4'>
-          {/* {
-            cars?.map((car: Record<string, any>) => {
-              return (
-                <Carcard data={car} />
-              )
-            })
-          } */}
-          <InfinteSrcoll
+      <div className='w-full justify-start pt-12 flex flex-col items-start md:basis-[70%] gap-4'>
+          <div className='md:block hidden'>
+            <InfinteSrcoll
 
-            data={cars}
-            dataLength={cars?.length}
-            next={() => setSize(size + 1)}
-            hasmore={cars?.length + 1 < totalcount}
+              data={cars}
+              dataLength={cars?.length}
+              next={() => setSize(size + 1)}
+              hasmore={cars?.length + 1 < totalcount}
             // className='w-[100%] flex flex-col justify-start items-center gap-5 '
-          >
-            {cars?.map((car: Record<string, any>) => (
-              <Carcard data={car} />
-            ))}
-          </InfinteSrcoll>
+            >
+              {cars?.map((car: Record<string, any>) => (
+                <Carcard data={car} />
+              ))}
+            </InfinteSrcoll>
+
+          </div>
+          <div className='md:hidden block'>
+            <InfinteSrcoll
+
+              data={cars}
+              width='100%'
+              dataLength={cars?.length}
+              next={() => setSize(size + 1)}
+              hasmore={cars?.length + 1 < totalcount}
+            // className='w-[100%] flex flex-col justify-start items-center gap-5 '
+            >
+              {cars?.map((car: Record<string, any>) => (
+                <Carcard data={car} />
+              ))}
+            </InfinteSrcoll>
+
+          </div>
 
         </div>
         <div className='   hidden md:flex flex-col gap-4 md:basis-[25%]'>

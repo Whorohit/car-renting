@@ -30,11 +30,11 @@ const Hero = () => {
                 
             </div>
             <div className=" w-full   px-6 relative flex flex-col mt-20 md:mt-0  justify-start ">
-                <h1 className="text-5xl  tracking-widest font-extrabold mb-10 ">
+                <h1 className=" text-5xl  tracking-widest font-extrabold mb-10 ">
                     Find, book, rent  car—quick and super easy!
                 </h1>
 
-                <p className="font-thin text-2xl">
+                <p className="font-thin text-3xl">
                     Streamline your car rental experience with our effortless booking
                     process.
                 </p>
