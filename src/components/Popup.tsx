@@ -12,7 +12,7 @@ const Popup: React.FC<Props> = ({ message, isshowPopup, handleclosepop,performac
         return null;
     return (
         <div className='fixed  bg-opacity-60 z-[100] flex justify-center items-center w-screen min-h-screen'>
-            <div className=' rounded-md h-1/3 min-h-[10rem]   p-4 bg-blue-50'>
+            <div className=' w-[80%] md:w-[50%] mx-auto rounded-md h-1/3 min-h-[10rem]   p-4 bg-blue-50'>
                 <h1 className='text-left text-black font-semibold text-base '>{message}</h1>
                 <h1 className='text-left text-neutral-400 font-light text-base'>This action cannot be undo.</h1>
   <div className='flex   items-center justify-end gap-5 px-6 mt-3'>
