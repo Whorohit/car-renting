@@ -188,16 +188,16 @@ const Carinfo: React.FC<Props> = () => {
   const checkouthandler =
     async () => {
       try {
-        const { data: { key } } = await axios.get("http://localhost:3000/api/getkey")
+        const { data: { key } } = await axios.get("/api/getkey")
         const totalPrice = data.RentorSell === "Rent"
           ? Math.floor((Number(data.price) * purchaseorrentdetails.totalday) * 0.5)
           : Math.floor(Number(data.price) * 0.005);
 
-        const { data: { order } } = await axios.post("http://localhost:3000/api/checkout", {
+        const { data: { order } } = await axios.post("/api/checkout", {
           amount: totalPrice
         })
 
-        const callbackUrl = "http://localhost:3000/api/paymentverification";
+        const callbackUrl = "/api/paymentverification";
         let queryParams = (data.RentorSell === "Rent" ? new URLSearchParams({
           price: totalPrice.toString(),
           userId: currentUser?.id.toString(),
